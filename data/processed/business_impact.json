@@ -1,0 +1,16 @@
+{
+  "revenue_at_risk": 98851.49,
+  "forecast_revenue_28d": 1768942.67,
+  "inventory_value": 1719613.12,
+  "capital_locked": 957622.87,
+  "working_capital_saved": 670336.01,
+  "potential_sales_increase": 84023.77,
+  "overstock_cost_monthly": 15960.38,
+  "stockout_cost": 148277.24,
+  "expected_profit_improvement": 606082.54,
+  "critical_stockout_count": 167,
+  "high_stockout_count": 49,
+  "overstock_count": 2814,
+  "healthy_count": 21,
+  "total_skus": 3802
+}

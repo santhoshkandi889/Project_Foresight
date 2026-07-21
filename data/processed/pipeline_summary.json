@@ -1,0 +1,80 @@
+{
+  "preprocessing": {
+    "sales_daily_rows": 1421948,
+    "sku_count": 3802,
+    "date_range": "2010-12-01 00:00:00 \u2192 2011-12-09 00:00:00",
+    "calendar_rows": 374
+  },
+  "feature_engineering": {
+    "shape": [
+      1421948,
+      102
+    ],
+    "feature_count": 102
+  },
+  "forecasting": {
+    "best_model": "RandomForest",
+    "cv_metrics": {
+      "RandomForest": {
+        "WAPE": 47.7717,
+        "MAPE": 130.5055,
+        "MAE": 3.0081,
+        "RMSE": 244.9517,
+        "Bias": -0.6825
+      },
+      "GradientBoosting": {
+        "WAPE": 69.4315,
+        "MAPE": 123.8079,
+        "MAE": 4.372,
+        "RMSE": 245.3887,
+        "Bias": -1.2219
+      },
+      "LightGBM": {
+        "WAPE": 70.1542,
+        "MAPE": 98.8401,
+        "MAE": 4.4175,
+        "RMSE": 247.3916,
+        "Bias": -1.2842
+      },
+      "XGBoost": {
+        "WAPE": 71.6009,
+        "MAPE": 121.8245,
+        "MAE": 4.5086,
+        "RMSE": 247.3784,
+        "Bias": -1.1666
+      },
+      "SeasonalNaive": {
+        "WAPE": 98.7185,
+        "MAPE": 158.5332,
+        "MAE": 6.2162,
+        "RMSE": 249.6655,
+        "Bias": -2.2146
+      }
+    },
+    "forecast_rows": 106456
+  },
+  "risk_scoring": {
+    "total_skus": 3802,
+    "critical_stockout": 167,
+    "overstock": 2814,
+    "healthy": 21
+  },
+  "business_impact": {
+    "revenue_at_risk": 98851.49,
+    "forecast_revenue_28d": 1768942.67,
+    "inventory_value": 1719613.12,
+    "capital_locked": 957622.87,
+    "working_capital_saved": 670336.01,
+    "potential_sales_increase": 84023.77,
+    "overstock_cost_monthly": 15960.38,
+    "stockout_cost": 148277.24,
+    "expected_profit_improvement": 606082.54,
+    "critical_stockout_count": 167,
+    "high_stockout_count": 49,
+    "overstock_count": 2814,
+    "healthy_count": 21,
+    "total_skus": 3802
+  },
+  "elapsed_seconds": 538.45,
+  "completed_at": "2026-07-20T23:30:20.514074"
+}

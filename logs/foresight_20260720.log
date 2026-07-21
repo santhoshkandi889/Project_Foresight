@@ -1,0 +1,1551 @@
+2026-07-20 21:35:29 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_pipeline
+2026-07-20 21:35:29 | INFO     | src.pipeline:run_pipeline:33 | 
+╔══════════════════════════════════════════════════════════╗
+║       PROJECT FORESIGHT – NorthBay Living                ║
+║       Demand & Inventory Intelligence Pipeline           ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-20 21:35:29 | INFO     | src.pipeline:run_pipeline:41 | ┌─ STEP 1: Data Preprocessing ─────────────────────────────
+2026-07-20 21:35:29 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_preprocessing
+2026-07-20 21:35:29 | INFO     | src.preprocessing:run_preprocessing:484 | Auto-detected raw file: data.csv
+2026-07-20 21:35:29 | INFO     | src.utils:wrapper:86 | ▶  Starting: load_and_clean_raw
+2026-07-20 21:35:29 | INFO     | src.preprocessing:load_and_clean_raw:98 | Loading raw data from: /home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv
+2026-07-20 21:35:30 | INFO     | src.preprocessing:load_and_clean_raw:104 | Loaded with encoding=latin-1: 541,909 rows, 8 cols
+2026-07-20 21:35:30 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_preprocessing: to_datetime() got an unexpected keyword argument 'infer_datetime_format'
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x7b5e5ff86f20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x7b5e60cf1620>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x7b5e60d9d940>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 43, in run_pipeline
+    sales_daily, sku_master, calendar, inventory = run_preprocessing()
+                                                   └ <function run_preprocessing at 0x7b5e46e1ab60>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ ()
+             └ <function run_preprocessing at 0x7b5e46e1aac0>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ ()
+           └ <function run_preprocessing at 0x7b5e46e1aa20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/preprocessing.py", line 487, in run_preprocessing
+    df_clean = load_and_clean_raw(raw_filepath)
+               │                  └ PosixPath('/home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv')
+               └ <function load_and_clean_raw at 0x7b5e4c8bff60>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (PosixPath('/home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv'),)
+             └ <function load_and_clean_raw at 0x7b5e5ff87920>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/preprocessing.py", line 131, in load_and_clean_raw
+    df["invoice_date"] = pd.to_datetime(df["invoice_date"], infer_datetime_format=True, errors="coerce")
+    │                    │  │           └        invoice_no stock_code  ... customer_id         country
+    │                    │  │             0          536365     85123A  ...     17850.0  United Kingdom
+    │                    │  │             1...
+    │                    │  └ <function to_datetime at 0x7b5e4759c9a0>
+    │                    └ <module 'pandas' from '/home/user/miniconda3/lib/python3.13/site-packages/pandas/__init__.py'>
+    └        invoice_no stock_code  ... customer_id         country
+      0          536365     85123A  ...     17850.0  United Kingdom
+      1...
+
+TypeError: to_datetime() got an unexpected keyword argument 'infer_datetime_format'
+2026-07-20 21:35:30 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_pipeline: to_datetime() got an unexpected keyword argument 'infer_datetime_format'
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x7b5e5ff86f20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x7b5e60cf1620>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x7b5e60d9d940>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 43, in run_pipeline
+    sales_daily, sku_master, calendar, inventory = run_preprocessing()
+                                                   └ <function run_preprocessing at 0x7b5e46e1ab60>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ ()
+             └ <function run_preprocessing at 0x7b5e46e1aac0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ ()
+           └ <function run_preprocessing at 0x7b5e46e1aa20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/preprocessing.py", line 487, in run_preprocessing
+    df_clean = load_and_clean_raw(raw_filepath)
+               │                  └ PosixPath('/home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv')
+               └ <function load_and_clean_raw at 0x7b5e4c8bff60>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (PosixPath('/home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv'),)
+             └ <function load_and_clean_raw at 0x7b5e5ff87920>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/preprocessing.py", line 131, in load_and_clean_raw
+    df["invoice_date"] = pd.to_datetime(df["invoice_date"], infer_datetime_format=True, errors="coerce")
+    │                    │  │           └        invoice_no stock_code  ... customer_id         country
+    │                    │  │             0          536365     85123A  ...     17850.0  United Kingdom
+    │                    │  │             1...
+    │                    │  └ <function to_datetime at 0x7b5e4759c9a0>
+    │                    └ <module 'pandas' from '/home/user/miniconda3/lib/python3.13/site-packages/pandas/__init__.py'>
+    └        invoice_no stock_code  ... customer_id         country
+      0          536365     85123A  ...     17850.0  United Kingdom
+      1...
+
+TypeError: to_datetime() got an unexpected keyword argument 'infer_datetime_format'
+2026-07-20 21:35:52 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_pipeline
+2026-07-20 21:35:52 | INFO     | src.pipeline:run_pipeline:33 | 
+╔══════════════════════════════════════════════════════════╗
+║       PROJECT FORESIGHT – NorthBay Living                ║
+║       Demand & Inventory Intelligence Pipeline           ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-20 21:35:52 | INFO     | src.pipeline:run_pipeline:41 | ┌─ STEP 1: Data Preprocessing ─────────────────────────────
+2026-07-20 21:35:52 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_preprocessing
+2026-07-20 21:35:52 | INFO     | src.preprocessing:run_preprocessing:484 | Auto-detected raw file: data.csv
+2026-07-20 21:35:52 | INFO     | src.utils:wrapper:86 | ▶  Starting: load_and_clean_raw
+2026-07-20 21:35:52 | INFO     | src.preprocessing:load_and_clean_raw:98 | Loading raw data from: /home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv
+2026-07-20 21:35:53 | INFO     | src.preprocessing:load_and_clean_raw:104 | Loaded with encoding=latin-1: 541,909 rows, 8 cols
+2026-07-20 21:35:53 | INFO     | src.preprocessing:load_and_clean_raw:137 | Removed 9,288 cancellation rows
+2026-07-20 21:35:54 | INFO     | src.preprocessing:load_and_clean_raw:171 | Removed 5,133 duplicate rows
+2026-07-20 21:35:54 | INFO     | src.preprocessing:load_and_clean_raw:173 | Clean dataset: 478,948 rows | Date range: 2010-12-01 → 2011-12-09
+2026-07-20 21:35:54 | INFO     | src.utils:wrapper:89 | ✔  Completed: load_and_clean_raw in 2.11s
+2026-07-20 21:35:54 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sales_daily
+2026-07-20 21:35:54 | INFO     | src.preprocessing:build_sales_daily:183 | Building sales_daily table…
+2026-07-20 21:35:56 | INFO     | src.preprocessing:build_sales_daily:227 | sales_daily: 1,421,948 rows | 3802 SKUs | 374 dates
+2026-07-20 21:35:56 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sales_daily in 2.08s
+2026-07-20 21:36:00 | INFO     | src.utils:save_csv:141 | 💾 Saved 1,421,948 rows → sales_daily.csv
+2026-07-20 21:36:00 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sku_master
+2026-07-20 21:36:00 | INFO     | src.preprocessing:build_sku_master:237 | Building sku_master table…
+2026-07-20 21:36:01 | INFO     | src.preprocessing:build_sku_master:300 | sku_master: 3,802 SKUs across 10 categories
+2026-07-20 21:36:01 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sku_master in 0.73s
+2026-07-20 21:36:01 | INFO     | src.utils:save_csv:141 | 💾 Saved 3,802 rows → sku_master.csv
+2026-07-20 21:36:01 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_calendar
+2026-07-20 21:36:01 | INFO     | src.preprocessing:build_calendar:310 | Building calendar table…
+2026-07-20 21:36:01 | INFO     | src.preprocessing:build_calendar:374 | calendar: 374 rows | 2 years
+2026-07-20 21:36:01 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_calendar in 0.03s
+2026-07-20 21:36:01 | INFO     | src.utils:save_csv:141 | 💾 Saved 374 rows → calendar.csv
+2026-07-20 21:36:01 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_inventory_snapshots
+2026-07-20 21:36:01 | INFO     | src.preprocessing:build_inventory_snapshots:389 | Simulating inventory snapshots…
+2026-07-20 21:37:56 | INFO     | src.preprocessing:build_inventory_snapshots:461 | inventory_snapshots: 1,421,948 rows
+2026-07-20 21:37:56 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_inventory_snapshots in 115.11s
+2026-07-20 21:38:06 | INFO     | src.utils:save_csv:141 | 💾 Saved 1,421,948 rows → inventory_snapshots.csv
+2026-07-20 21:38:06 | INFO     | src.preprocessing:run_preprocessing:505 | ✅ All four FORESIGHT tables saved to data/processed/
+2026-07-20 21:38:06 | INFO     | src.preprocessing:_print_assumptions:514 | 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DOCUMENTED SIMULATION ASSUMPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[A] Categories:  Keyword matching on product descriptions
+[B] Inventory:   Starting stock = 12-week avg demand; (s,Q) policy
+[C] ROP:         avg_daily_demand × lead_time × 1.5 safety factor
+[D] Lead Times:  Uniform(3–14) days, seeded=42 (reproducible)
+[E] Promotions:  Flagged when price < 85% of 30-day rolling avg
+[F] EOQ:         sqrt(2 × D × S / H); ordering cost=£50, H=20% of price
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2026-07-20 21:38:06 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_preprocessing in 133.94s
+2026-07-20 21:38:06 | INFO     | src.pipeline:run_pipeline:50 | └─ Step 1 complete ✓
+2026-07-20 21:38:06 | INFO     | src.pipeline:run_pipeline:53 | ┌─ STEP 2: Feature Engineering ────────────────────────────
+2026-07-20 21:38:06 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_feature_engineering
+2026-07-20 21:38:06 | INFO     | src.feature_engineering:run_feature_engineering:88 | Merging tables…
+2026-07-20 21:38:07 | INFO     | src.feature_engineering:run_feature_engineering:115 | Engineering temporal features…
+2026-07-20 21:38:07 | INFO     | src.feature_engineering:run_feature_engineering:131 | Engineering lag features…
+2026-07-20 21:38:07 | INFO     | src.feature_engineering:run_feature_engineering:141 | Engineering rolling features…
+2026-07-20 21:38:24 | INFO     | src.feature_engineering:run_feature_engineering:156 | Engineering price/promotion features…
+2026-07-20 21:38:26 | INFO     | src.feature_engineering:run_feature_engineering:178 | Engineering inventory features…
+2026-07-20 21:38:26 | INFO     | src.feature_engineering:run_feature_engineering:197 | Engineering momentum/volatility features…
+2026-07-20 21:39:04 | INFO     | src.feature_engineering:run_feature_engineering:227 | Engineering revenue features…
+2026-07-20 21:39:40 | INFO     | src.feature_engineering:run_feature_engineering:239 | Engineering lifecycle features…
+2026-07-20 21:39:40 | INFO     | src.feature_engineering:run_feature_engineering:249 | Encoding categorical features…
+2026-07-20 21:41:04 | INFO     | src.utils:save_csv:141 | 💾 Saved 1,421,948 rows → features_engineered.csv
+2026-07-20 21:41:04 | INFO     | src.feature_engineering:run_feature_engineering:276 | ✅ Feature engineering complete: 1,421,948 rows × 102 columns
+2026-07-20 21:41:04 | INFO     | src.feature_engineering:run_feature_engineering:277 |    Feature columns: 90
+2026-07-20 21:41:04 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_feature_engineering in 178.66s
+2026-07-20 21:41:04 | INFO     | src.pipeline:run_pipeline:60 | └─ Step 2 complete ✓
+2026-07-20 21:41:04 | INFO     | src.pipeline:run_pipeline:64 | ┌─ STEP 3: Model Training & Forecasting ───────────────────
+2026-07-20 21:41:06 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_forecasting
+2026-07-20 21:41:06 | INFO     | src.forecasting:run_forecasting:458 | SKUs with ≥60 days history: 3,802/3,802
+2026-07-20 21:41:07 | INFO     | src.utils:wrapper:86 | ▶  Starting: cross_validate_models
+2026-07-20 21:41:08 | DEBUG    | src.forecasting:rolling_origin_splits:70 | Fold 1: train 2010-12-01 00:00:00→2011-11-11 00:00:00 | test 2011-11-12 00:00:00→2011-12-09 00:00:00
+2026-07-20 21:43:43 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_pipeline
+2026-07-20 21:43:43 | INFO     | src.pipeline:run_pipeline:33 | 
+╔══════════════════════════════════════════════════════════╗
+║       PROJECT FORESIGHT – NorthBay Living                ║
+║       Demand & Inventory Intelligence Pipeline           ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-20 21:43:44 | INFO     | src.pipeline:run_pipeline:44 | ┌─ STEP 1 & 2: Skipping prep, loading features ────────────
+2026-07-20 21:44:03 | INFO     | src.pipeline:run_pipeline:50 | └─ Features loaded ✓
+2026-07-20 21:44:03 | INFO     | src.pipeline:run_pipeline:76 | ┌─ STEP 3: Model Training & Forecasting ───────────────────
+2026-07-20 21:44:04 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_forecasting
+2026-07-20 21:44:04 | INFO     | src.forecasting:run_forecasting:432 | SKUs with ≥60 days history: 3,802/3,802
+2026-07-20 21:44:05 | INFO     | src.utils:wrapper:86 | ▶  Starting: cross_validate_models
+2026-07-20 21:44:06 | DEBUG    | src.forecasting:rolling_origin_splits:70 | Fold 1: train 2010-12-01 00:00:00→2011-11-11 00:00:00 | test 2011-11-12 00:00:00→2011-12-09 00:00:00
+2026-07-20 21:44:08 | DEBUG    | src.forecasting:rolling_origin_splits:70 | Fold 2: train 2010-12-01 00:00:00→2011-10-14 00:00:00 | test 2011-10-15 00:00:00→2011-11-11 00:00:00
+2026-07-20 21:58:03 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_pipeline
+2026-07-20 21:58:03 | INFO     | src.pipeline:run_pipeline:33 | 
+╔══════════════════════════════════════════════════════════╗
+║       PROJECT FORESIGHT – NorthBay Living                ║
+║       Demand & Inventory Intelligence Pipeline           ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-20 21:58:03 | INFO     | src.pipeline:run_pipeline:41 | ┌─ STEP 1: Data Preprocessing ─────────────────────────────
+2026-07-20 21:58:04 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_preprocessing
+2026-07-20 21:58:04 | INFO     | src.preprocessing:run_preprocessing:484 | Auto-detected raw file: data.csv
+2026-07-20 21:58:04 | INFO     | src.utils:wrapper:86 | ▶  Starting: load_and_clean_raw
+2026-07-20 21:58:04 | INFO     | src.preprocessing:load_and_clean_raw:98 | Loading raw data from: /home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv
+2026-07-20 21:58:04 | INFO     | src.preprocessing:load_and_clean_raw:104 | Loaded with encoding=latin-1: 541,909 rows, 8 cols
+2026-07-20 21:58:05 | INFO     | src.preprocessing:load_and_clean_raw:137 | Removed 9,288 cancellation rows
+2026-07-20 21:58:05 | INFO     | src.preprocessing:load_and_clean_raw:171 | Removed 5,133 duplicate rows
+2026-07-20 21:58:05 | INFO     | src.preprocessing:load_and_clean_raw:173 | Clean dataset: 478,948 rows | Date range: 2010-12-01 → 2011-12-09
+2026-07-20 21:58:05 | INFO     | src.utils:wrapper:89 | ✔  Completed: load_and_clean_raw in 1.79s
+2026-07-20 21:58:05 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sales_daily
+2026-07-20 21:58:05 | INFO     | src.preprocessing:build_sales_daily:183 | Building sales_daily table…
+2026-07-20 21:58:07 | INFO     | src.preprocessing:build_sales_daily:227 | sales_daily: 1,421,948 rows | 3802 SKUs | 374 dates
+2026-07-20 21:58:07 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sales_daily in 1.95s
+2026-07-20 21:58:10 | INFO     | src.utils:save_csv:141 | 💾 Saved 1,421,948 rows → sales_daily.csv
+2026-07-20 21:58:10 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sku_master
+2026-07-20 21:58:10 | INFO     | src.preprocessing:build_sku_master:237 | Building sku_master table…
+2026-07-20 21:58:11 | INFO     | src.preprocessing:build_sku_master:300 | sku_master: 3,802 SKUs across 10 categories
+2026-07-20 21:58:11 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sku_master in 0.52s
+2026-07-20 21:58:11 | INFO     | src.utils:save_csv:141 | 💾 Saved 3,802 rows → sku_master.csv
+2026-07-20 21:58:11 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_calendar
+2026-07-20 21:58:11 | INFO     | src.preprocessing:build_calendar:310 | Building calendar table…
+2026-07-20 21:58:11 | INFO     | src.preprocessing:build_calendar:374 | calendar: 374 rows | 2 years
+2026-07-20 21:58:11 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_calendar in 0.02s
+2026-07-20 21:58:11 | INFO     | src.utils:save_csv:141 | 💾 Saved 374 rows → calendar.csv
+2026-07-20 21:58:11 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_inventory_snapshots
+2026-07-20 21:58:11 | INFO     | src.preprocessing:build_inventory_snapshots:389 | Simulating inventory snapshots…
+2026-07-20 21:59:51 | INFO     | src.preprocessing:build_inventory_snapshots:461 | inventory_snapshots: 1,421,948 rows
+2026-07-20 21:59:51 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_inventory_snapshots in 100.27s
+2026-07-20 22:00:01 | INFO     | src.utils:save_csv:141 | 💾 Saved 1,421,948 rows → inventory_snapshots.csv
+2026-07-20 22:00:01 | INFO     | src.preprocessing:run_preprocessing:505 | ✅ All four FORESIGHT tables saved to data/processed/
+2026-07-20 22:00:01 | INFO     | src.preprocessing:_print_assumptions:514 | 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DOCUMENTED SIMULATION ASSUMPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[A] Categories:  Keyword matching on product descriptions
+[B] Inventory:   Starting stock = 12-week avg demand; (s,Q) policy
+[C] ROP:         avg_daily_demand × lead_time × 1.5 safety factor
+[D] Lead Times:  Uniform(3–14) days, seeded=42 (reproducible)
+[E] Promotions:  Flagged when price < 85% of 30-day rolling avg
+[F] EOQ:         sqrt(2 × D × S / H); ordering cost=£50, H=20% of price
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2026-07-20 22:00:01 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_preprocessing in 117.83s
+2026-07-20 22:00:01 | INFO     | src.pipeline:run_pipeline:50 | └─ Step 1 complete ✓
+2026-07-20 22:00:01 | INFO     | src.pipeline:run_pipeline:53 | ┌─ STEP 2: Feature Engineering ────────────────────────────
+2026-07-20 22:00:01 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_feature_engineering
+2026-07-20 22:00:02 | INFO     | src.feature_engineering:run_feature_engineering:88 | Merging tables…
+2026-07-20 22:00:02 | INFO     | src.feature_engineering:run_feature_engineering:115 | Engineering temporal features…
+2026-07-20 22:00:02 | INFO     | src.feature_engineering:run_feature_engineering:131 | Engineering lag features…
+2026-07-20 22:00:03 | INFO     | src.feature_engineering:run_feature_engineering:141 | Engineering rolling features…
+2026-07-20 22:00:20 | INFO     | src.feature_engineering:run_feature_engineering:156 | Engineering price/promotion features…
+2026-07-20 22:00:22 | INFO     | src.feature_engineering:run_feature_engineering:178 | Engineering inventory features…
+2026-07-20 22:00:22 | INFO     | src.feature_engineering:run_feature_engineering:197 | Engineering momentum/volatility features…
+2026-07-20 22:00:59 | INFO     | src.feature_engineering:run_feature_engineering:227 | Engineering revenue features…
+2026-07-20 22:01:36 | INFO     | src.feature_engineering:run_feature_engineering:239 | Engineering lifecycle features…
+2026-07-20 22:01:36 | INFO     | src.feature_engineering:run_feature_engineering:249 | Encoding categorical features…
+2026-07-20 22:01:37 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_feature_engineering: ufunc 'less' did not contain a loop with signature matching types (<class 'numpy.dtypes.Float32DType'>, <class 'numpy.dtypes.StrDType'>) -> None
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x7a3bd4c8af20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x7a3bd5af1620>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x7a3bd5b9d940>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 55, in run_pipeline
+    features_df = run_feature_engineering(sales_daily, sku_master, calendar, inventory)
+                  │                       │            │           │         └         stock_code       date  ...  coverage_days  avg_daily_demand
+                  │                       │            │           │           0            10002 2010-12-01  ...          73.75        ...
+                  │                       │            │           └           date  year  ...  days_to_christmas days_to_newyear
+                  │                       │            │             0   2010-12-01  2010  ...                 24              31
+                  │                       │            │             1  ...
+                  │                       │            └      stock_code  ... shelf_life_days
+                  │                       │              0         23843  ...            1622
+                  │                       │              1         22423  ...             164
+                  │                       │              2        85123...
+                  │                       └         stock_code       date  ...  num_customers  is_promotion
+                  │                         0            10002 2010-12-01  ...              1            ...
+                  └ <function run_feature_engineering at 0x7a3bbb7c19e0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (        stock_code       date  ...  num_customers  is_promotion
+             │       0            10002 2010-12-01  ...              1           ...
+             └ <function run_feature_engineering at 0x7a3bbb7c1940>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ (        stock_code       date  ...  num_customers  is_promotion
+           │       0            10002 2010-12-01  ...              1           ...
+           └ <function run_feature_engineering at 0x7a3bbb7c18a0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/feature_engineering.py", line 274, in run_feature_engineering
+    df = reduce_mem_usage(df)
+         │                └         stock_code       date  ...  category_encoded  dow_encoded
+         │                  0            10002 2010-12-01  ...                 3       ...
+         └ <function reduce_mem_usage at 0x7a3bd4c8ab60>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 131, in reduce_mem_usage
+    if c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
+       │       │  │     │  │                │       │  │     │  └ <class 'numpy.float32'>
+       │       │  │     │  │                │       │  │     └ <module 'numpy' from '/home/user/miniconda3/lib/python3.13/site-packages/numpy/__init__.py'>
+       │       │  │     │  │                │       │  └ <class 'numpy.finfo'>
+       │       │  │     │  │                │       └ <module 'numpy' from '/home/user/miniconda3/lib/python3.13/site-packages/numpy/__init__.py'>
+       │       │  │     │  │                └ 'M'
+       │       │  │     │  └ <class 'numpy.float32'>
+       │       │  │     └ <module 'numpy' from '/home/user/miniconda3/lib/python3.13/site-packages/numpy/__init__.py'>
+       │       │  └ <class 'numpy.finfo'>
+       │       └ <module 'numpy' from '/home/user/miniconda3/lib/python3.13/site-packages/numpy/__init__.py'>
+       └ '10002'
+
+numpy._core._exceptions._UFuncNoLoopError: ufunc 'less' did not contain a loop with signature matching types (<class 'numpy.dtypes.Float32DType'>, <class 'numpy.dtypes.StrDType'>) -> None
+2026-07-20 22:01:37 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_pipeline: ufunc 'less' did not contain a loop with signature matching types (<class 'numpy.dtypes.Float32DType'>, <class 'numpy.dtypes.StrDType'>) -> None
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x7a3bd4c8af20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x7a3bd5af1620>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x7a3bd5b9d940>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 55, in run_pipeline
+    features_df = run_feature_engineering(sales_daily, sku_master, calendar, inventory)
+                  │                       │            │           │         └         stock_code       date  ...  coverage_days  avg_daily_demand
+                  │                       │            │           │           0            10002 2010-12-01  ...          73.75        ...
+                  │                       │            │           └           date  year  ...  days_to_christmas days_to_newyear
+                  │                       │            │             0   2010-12-01  2010  ...                 24              31
+                  │                       │            │             1  ...
+                  │                       │            └      stock_code  ... shelf_life_days
+                  │                       │              0         23843  ...            1622
+                  │                       │              1         22423  ...             164
+                  │                       │              2        85123...
+                  │                       └         stock_code       date  ...  num_customers  is_promotion
+                  │                         0            10002 2010-12-01  ...              1            ...
+                  └ <function run_feature_engineering at 0x7a3bbb7c19e0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (        stock_code       date  ...  num_customers  is_promotion
+             │       0            10002 2010-12-01  ...              1           ...
+             └ <function run_feature_engineering at 0x7a3bbb7c1940>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ (        stock_code       date  ...  num_customers  is_promotion
+           │       0            10002 2010-12-01  ...              1           ...
+           └ <function run_feature_engineering at 0x7a3bbb7c18a0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/feature_engineering.py", line 274, in run_feature_engineering
+    df = reduce_mem_usage(df)
+         │                └         stock_code       date  ...  category_encoded  dow_encoded
+         │                  0            10002 2010-12-01  ...                 3       ...
+         └ <function reduce_mem_usage at 0x7a3bd4c8ab60>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 131, in reduce_mem_usage
+    if c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
+       │       │  │     │  │                │       │  │     │  └ <class 'numpy.float32'>
+       │       │  │     │  │                │       │  │     └ <module 'numpy' from '/home/user/miniconda3/lib/python3.13/site-packages/numpy/__init__.py'>
+       │       │  │     │  │                │       │  └ <class 'numpy.finfo'>
+       │       │  │     │  │                │       └ <module 'numpy' from '/home/user/miniconda3/lib/python3.13/site-packages/numpy/__init__.py'>
+       │       │  │     │  │                └ 'M'
+       │       │  │     │  └ <class 'numpy.float32'>
+       │       │  │     └ <module 'numpy' from '/home/user/miniconda3/lib/python3.13/site-packages/numpy/__init__.py'>
+       │       │  └ <class 'numpy.finfo'>
+       │       └ <module 'numpy' from '/home/user/miniconda3/lib/python3.13/site-packages/numpy/__init__.py'>
+       └ '10002'
+
+numpy._core._exceptions._UFuncNoLoopError: ufunc 'less' did not contain a loop with signature matching types (<class 'numpy.dtypes.Float32DType'>, <class 'numpy.dtypes.StrDType'>) -> None
+2026-07-20 22:02:53 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_pipeline
+2026-07-20 22:02:53 | INFO     | src.pipeline:run_pipeline:33 | 
+╔══════════════════════════════════════════════════════════╗
+║       PROJECT FORESIGHT – NorthBay Living                ║
+║       Demand & Inventory Intelligence Pipeline           ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-20 22:02:53 | INFO     | src.pipeline:run_pipeline:41 | ┌─ STEP 1: Data Preprocessing ─────────────────────────────
+2026-07-20 22:02:53 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_preprocessing
+2026-07-20 22:02:53 | INFO     | src.preprocessing:run_preprocessing:484 | Auto-detected raw file: data.csv
+2026-07-20 22:02:53 | INFO     | src.utils:wrapper:86 | ▶  Starting: load_and_clean_raw
+2026-07-20 22:02:53 | INFO     | src.preprocessing:load_and_clean_raw:98 | Loading raw data from: /home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv
+2026-07-20 22:02:54 | INFO     | src.preprocessing:load_and_clean_raw:104 | Loaded with encoding=latin-1: 541,909 rows, 8 cols
+2026-07-20 22:02:54 | INFO     | src.preprocessing:load_and_clean_raw:137 | Removed 9,288 cancellation rows
+2026-07-20 22:02:55 | INFO     | src.preprocessing:load_and_clean_raw:171 | Removed 5,133 duplicate rows
+2026-07-20 22:02:55 | INFO     | src.preprocessing:load_and_clean_raw:173 | Clean dataset: 478,948 rows | Date range: 2010-12-01 → 2011-12-09
+2026-07-20 22:02:55 | INFO     | src.utils:wrapper:89 | ✔  Completed: load_and_clean_raw in 1.87s
+2026-07-20 22:02:55 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sales_daily
+2026-07-20 22:02:55 | INFO     | src.preprocessing:build_sales_daily:183 | Building sales_daily table…
+2026-07-20 22:02:57 | INFO     | src.preprocessing:build_sales_daily:227 | sales_daily: 1,421,948 rows | 3802 SKUs | 374 dates
+2026-07-20 22:02:57 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sales_daily in 1.83s
+2026-07-20 22:03:00 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → sales_daily.csv
+2026-07-20 22:03:00 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sku_master
+2026-07-20 22:03:00 | INFO     | src.preprocessing:build_sku_master:237 | Building sku_master table…
+2026-07-20 22:03:00 | INFO     | src.preprocessing:build_sku_master:300 | sku_master: 3,802 SKUs across 10 categories
+2026-07-20 22:03:00 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sku_master in 0.62s
+2026-07-20 22:03:00 | INFO     | src.utils:save_csv:140 | 💾 Saved 3,802 rows → sku_master.csv
+2026-07-20 22:03:00 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_calendar
+2026-07-20 22:03:00 | INFO     | src.preprocessing:build_calendar:310 | Building calendar table…
+2026-07-20 22:03:00 | INFO     | src.preprocessing:build_calendar:374 | calendar: 374 rows | 2 years
+2026-07-20 22:03:00 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_calendar in 0.03s
+2026-07-20 22:03:00 | INFO     | src.utils:save_csv:140 | 💾 Saved 374 rows → calendar.csv
+2026-07-20 22:03:00 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_inventory_snapshots
+2026-07-20 22:03:00 | INFO     | src.preprocessing:build_inventory_snapshots:389 | Simulating inventory snapshots…
+2026-07-20 22:04:46 | INFO     | src.preprocessing:build_inventory_snapshots:461 | inventory_snapshots: 1,421,948 rows
+2026-07-20 22:04:46 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_inventory_snapshots in 105.79s
+2026-07-20 22:04:57 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → inventory_snapshots.csv
+2026-07-20 22:04:57 | INFO     | src.preprocessing:run_preprocessing:505 | ✅ All four FORESIGHT tables saved to data/processed/
+2026-07-20 22:04:57 | INFO     | src.preprocessing:_print_assumptions:514 | 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DOCUMENTED SIMULATION ASSUMPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[A] Categories:  Keyword matching on product descriptions
+[B] Inventory:   Starting stock = 12-week avg demand; (s,Q) policy
+[C] ROP:         avg_daily_demand × lead_time × 1.5 safety factor
+[D] Lead Times:  Uniform(3–14) days, seeded=42 (reproducible)
+[E] Promotions:  Flagged when price < 85% of 30-day rolling avg
+[F] EOQ:         sqrt(2 × D × S / H); ordering cost=£50, H=20% of price
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2026-07-20 22:04:57 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_preprocessing in 123.60s
+2026-07-20 22:04:57 | INFO     | src.pipeline:run_pipeline:50 | └─ Step 1 complete ✓
+2026-07-20 22:04:57 | INFO     | src.pipeline:run_pipeline:53 | ┌─ STEP 2: Feature Engineering ────────────────────────────
+2026-07-20 22:04:57 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_feature_engineering
+2026-07-20 22:04:57 | INFO     | src.feature_engineering:run_feature_engineering:88 | Merging tables…
+2026-07-20 22:04:58 | INFO     | src.feature_engineering:run_feature_engineering:115 | Engineering temporal features…
+2026-07-20 22:04:58 | INFO     | src.feature_engineering:run_feature_engineering:131 | Engineering lag features…
+2026-07-20 22:04:58 | INFO     | src.feature_engineering:run_feature_engineering:141 | Engineering rolling features…
+2026-07-20 22:05:16 | INFO     | src.feature_engineering:run_feature_engineering:156 | Engineering price/promotion features…
+2026-07-20 22:05:18 | INFO     | src.feature_engineering:run_feature_engineering:178 | Engineering inventory features…
+2026-07-20 22:05:18 | INFO     | src.feature_engineering:run_feature_engineering:197 | Engineering momentum/volatility features…
+2026-07-20 22:05:56 | INFO     | src.feature_engineering:run_feature_engineering:227 | Engineering revenue features…
+2026-07-20 22:06:33 | INFO     | src.feature_engineering:run_feature_engineering:239 | Engineering lifecycle features…
+2026-07-20 22:06:33 | INFO     | src.feature_engineering:run_feature_engineering:249 | Encoding categorical features…
+2026-07-20 22:06:34 | DEBUG    | src.utils:reduce_mem_usage:133 | Memory reduced: 1116.0 MB → 550.5 MB (50.7% saved)
+2026-07-20 22:07:39 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → features_engineered.csv
+2026-07-20 22:07:39 | INFO     | src.feature_engineering:run_feature_engineering:277 | ✅ Feature engineering complete: 1,421,948 rows × 102 columns
+2026-07-20 22:07:39 | INFO     | src.feature_engineering:run_feature_engineering:278 |    Feature columns: 90
+2026-07-20 22:07:39 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_feature_engineering in 162.40s
+2026-07-20 22:07:39 | INFO     | src.pipeline:run_pipeline:60 | └─ Step 2 complete ✓
+2026-07-20 22:07:39 | INFO     | src.pipeline:run_pipeline:64 | ┌─ STEP 3: Model Training & Forecasting ───────────────────
+2026-07-20 22:07:40 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_forecasting
+2026-07-20 22:07:41 | INFO     | src.forecasting:run_forecasting:458 | Subsetting data for modeling to 688,162 rows (last 180 days)
+2026-07-20 22:07:41 | INFO     | src.forecasting:run_forecasting:463 | SKUs with ≥60 days history: 3,802/3,802
+2026-07-20 22:07:41 | INFO     | src.utils:wrapper:86 | ▶  Starting: cross_validate_models
+2026-07-20 22:07:41 | DEBUG    | src.forecasting:rolling_origin_splits:70 | Fold 1: train 2011-06-12 00:00:00→2011-11-11 00:00:00 | test 2011-11-12 00:00:00→2011-12-09 00:00:00
+2026-07-20 22:07:41 | INFO     | src.forecasting:rolling_origin_splits:74 | Rolling-Origin CV: 1 folds
+2026-07-20 22:07:41 | INFO     | src.forecasting:cross_validate_models:251 | ━━ Fold 1/1 ━━
+2026-07-20 22:07:41 | INFO     | src.forecasting:cross_validate_models:264 |   SeasonalNaive WAPE: 98.31%
+2026-07-20 22:28:22 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_pipeline
+2026-07-20 22:28:22 | INFO     | src.pipeline:run_pipeline:33 | 
+╔══════════════════════════════════════════════════════════╗
+║       PROJECT FORESIGHT – NorthBay Living                ║
+║       Demand & Inventory Intelligence Pipeline           ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-20 22:28:22 | INFO     | src.pipeline:run_pipeline:41 | ┌─ STEP 1: Data Preprocessing ─────────────────────────────
+2026-07-20 22:28:23 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_preprocessing
+2026-07-20 22:28:23 | INFO     | src.preprocessing:run_preprocessing:484 | Auto-detected raw file: data.csv
+2026-07-20 22:28:23 | INFO     | src.utils:wrapper:86 | ▶  Starting: load_and_clean_raw
+2026-07-20 22:28:23 | INFO     | src.preprocessing:load_and_clean_raw:98 | Loading raw data from: /home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv
+2026-07-20 22:28:24 | INFO     | src.preprocessing:load_and_clean_raw:104 | Loaded with encoding=latin-1: 541,909 rows, 8 cols
+2026-07-20 22:28:24 | INFO     | src.preprocessing:load_and_clean_raw:137 | Removed 9,288 cancellation rows
+2026-07-20 22:28:25 | INFO     | src.preprocessing:load_and_clean_raw:171 | Removed 5,133 duplicate rows
+2026-07-20 22:28:25 | INFO     | src.preprocessing:load_and_clean_raw:173 | Clean dataset: 478,948 rows | Date range: 2010-12-01 → 2011-12-09
+2026-07-20 22:28:25 | INFO     | src.utils:wrapper:89 | ✔  Completed: load_and_clean_raw in 1.85s
+2026-07-20 22:28:25 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sales_daily
+2026-07-20 22:28:25 | INFO     | src.preprocessing:build_sales_daily:183 | Building sales_daily table…
+2026-07-20 22:28:26 | INFO     | src.preprocessing:build_sales_daily:227 | sales_daily: 1,421,948 rows | 3802 SKUs | 374 dates
+2026-07-20 22:28:26 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sales_daily in 1.75s
+2026-07-20 22:28:29 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → sales_daily.csv
+2026-07-20 22:28:29 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sku_master
+2026-07-20 22:28:29 | INFO     | src.preprocessing:build_sku_master:237 | Building sku_master table…
+2026-07-20 22:28:30 | INFO     | src.preprocessing:build_sku_master:300 | sku_master: 3,802 SKUs across 10 categories
+2026-07-20 22:28:30 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sku_master in 0.58s
+2026-07-20 22:28:30 | INFO     | src.utils:save_csv:140 | 💾 Saved 3,802 rows → sku_master.csv
+2026-07-20 22:28:30 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_calendar
+2026-07-20 22:28:30 | INFO     | src.preprocessing:build_calendar:310 | Building calendar table…
+2026-07-20 22:28:30 | INFO     | src.preprocessing:build_calendar:374 | calendar: 374 rows | 2 years
+2026-07-20 22:28:30 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_calendar in 0.03s
+2026-07-20 22:28:30 | INFO     | src.utils:save_csv:140 | 💾 Saved 374 rows → calendar.csv
+2026-07-20 22:28:30 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_inventory_snapshots
+2026-07-20 22:28:30 | INFO     | src.preprocessing:build_inventory_snapshots:389 | Simulating inventory snapshots…
+2026-07-20 22:30:23 | INFO     | src.preprocessing:build_inventory_snapshots:461 | inventory_snapshots: 1,421,948 rows
+2026-07-20 22:30:23 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_inventory_snapshots in 113.42s
+2026-07-20 22:30:35 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → inventory_snapshots.csv
+2026-07-20 22:30:35 | INFO     | src.preprocessing:run_preprocessing:505 | ✅ All four FORESIGHT tables saved to data/processed/
+2026-07-20 22:30:35 | INFO     | src.preprocessing:_print_assumptions:514 | 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DOCUMENTED SIMULATION ASSUMPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[A] Categories:  Keyword matching on product descriptions
+[B] Inventory:   Starting stock = 12-week avg demand; (s,Q) policy
+[C] ROP:         avg_daily_demand × lead_time × 1.5 safety factor
+[D] Lead Times:  Uniform(3–14) days, seeded=42 (reproducible)
+[E] Promotions:  Flagged when price < 85% of 30-day rolling avg
+[F] EOQ:         sqrt(2 × D × S / H); ordering cost=£50, H=20% of price
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2026-07-20 22:30:35 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_preprocessing in 131.79s
+2026-07-20 22:30:35 | INFO     | src.pipeline:run_pipeline:50 | └─ Step 1 complete ✓
+2026-07-20 22:30:35 | INFO     | src.pipeline:run_pipeline:53 | ┌─ STEP 2: Feature Engineering ────────────────────────────
+2026-07-20 22:30:35 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_feature_engineering
+2026-07-20 22:30:35 | INFO     | src.feature_engineering:run_feature_engineering:88 | Merging tables…
+2026-07-20 22:30:35 | INFO     | src.feature_engineering:run_feature_engineering:115 | Engineering temporal features…
+2026-07-20 22:30:35 | INFO     | src.feature_engineering:run_feature_engineering:131 | Engineering lag features…
+2026-07-20 22:30:36 | INFO     | src.feature_engineering:run_feature_engineering:141 | Engineering rolling features…
+2026-07-20 22:30:55 | INFO     | src.feature_engineering:run_feature_engineering:156 | Engineering price/promotion features…
+2026-07-20 22:30:57 | INFO     | src.feature_engineering:run_feature_engineering:178 | Engineering inventory features…
+2026-07-20 22:30:57 | INFO     | src.feature_engineering:run_feature_engineering:197 | Engineering momentum/volatility features…
+2026-07-20 22:31:41 | INFO     | src.feature_engineering:run_feature_engineering:227 | Engineering revenue features…
+2026-07-20 22:32:25 | INFO     | src.feature_engineering:run_feature_engineering:239 | Engineering lifecycle features…
+2026-07-20 22:32:25 | INFO     | src.feature_engineering:run_feature_engineering:249 | Encoding categorical features…
+2026-07-20 22:32:26 | DEBUG    | src.utils:reduce_mem_usage:133 | Memory reduced: 1116.0 MB → 550.5 MB (50.7% saved)
+2026-07-20 22:33:36 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → features_engineered.csv
+2026-07-20 22:33:36 | INFO     | src.feature_engineering:run_feature_engineering:277 | ✅ Feature engineering complete: 1,421,948 rows × 102 columns
+2026-07-20 22:33:36 | INFO     | src.feature_engineering:run_feature_engineering:278 |    Feature columns: 90
+2026-07-20 22:33:36 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_feature_engineering in 181.20s
+2026-07-20 22:33:36 | INFO     | src.pipeline:run_pipeline:60 | └─ Step 2 complete ✓
+2026-07-20 22:33:36 | INFO     | src.pipeline:run_pipeline:64 | ┌─ STEP 3: Model Training & Forecasting ───────────────────
+2026-07-20 22:33:36 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_forecasting
+2026-07-20 22:33:36 | INFO     | src.forecasting:run_forecasting:458 | Subsetting data for modeling to 117,862 rows (last 30 days)
+2026-07-20 22:33:36 | INFO     | src.forecasting:run_forecasting:463 | SKUs with ≥60 days history: 0/3,802
+2026-07-20 22:33:36 | INFO     | src.utils:wrapper:86 | ▶  Starting: cross_validate_models
+2026-07-20 22:33:36 | WARNING  | src.forecasting:rolling_origin_splits:60 | Fold 1: insufficient training data, skipping.
+2026-07-20 22:33:36 | INFO     | src.forecasting:rolling_origin_splits:74 | Rolling-Origin CV: 0 folds
+2026-07-20 22:33:36 | INFO     | src.utils:wrapper:89 | ✔  Completed: cross_validate_models in 0.00s
+2026-07-20 22:33:36 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_forecasting: 'WAPE'
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x7d7e29b86f20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x7d7e2a8d4ea0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x7d7e2a99d260>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 66, in run_pipeline
+    forecast_results = run_forecasting(features_df)
+                       │               └         stock_code       date  ...  category_encoded  dow_encoded
+                       │                 0            10002 2010-12-01  ...                 3       ...
+                       └ <function run_forecasting at 0x7d7d9c99c360>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+             │       0            10002 2010-12-01  ...                 3      ...
+             └ <function run_forecasting at 0x7d7d9c99c2c0>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+           │       0            10002 2010-12-01  ...                 3      ...
+           └ <function run_forecasting at 0x7d7d9c99c220>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/forecasting.py", line 471, in run_forecasting
+    comparison_df = compare_models(cv_results)
+                    │              └ {}
+                    └ <function compare_models at 0x7d7d9c9bf9c0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/evaluation.py", line 76, in compare_models
+    df = pd.DataFrame(rows).sort_values("WAPE").reset_index(drop=True)
+         │  │         └ []
+         │  └ <class 'pandas.DataFrame'>
+         └ <module 'pandas' from '/home/user/miniconda3/lib/python3.13/site-packages/pandas/__init__.py'>
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/frame.py", line 8347, in sort_values
+    k = self._get_label_or_level_values(by[0], axis=axis)
+        │    │                          │           └ 0
+        │    │                          └ ['WAPE']
+        │    └ <function NDFrame._get_label_or_level_values at 0x7d7e153bdd00>
+        └ Empty DataFrame
+          Columns: []
+          Index: []
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/generic.py", line 1776, in _get_label_or_level_values
+    raise KeyError(key)
+                   └ 'WAPE'
+
+KeyError: 'WAPE'
+2026-07-20 22:33:37 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_pipeline: 'WAPE'
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x7d7e29b86f20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x7d7e2a8d4ea0>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x7d7e2a99d260>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 66, in run_pipeline
+    forecast_results = run_forecasting(features_df)
+                       │               └         stock_code       date  ...  category_encoded  dow_encoded
+                       │                 0            10002 2010-12-01  ...                 3       ...
+                       └ <function run_forecasting at 0x7d7d9c99c360>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+             │       0            10002 2010-12-01  ...                 3      ...
+             └ <function run_forecasting at 0x7d7d9c99c2c0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+           │       0            10002 2010-12-01  ...                 3      ...
+           └ <function run_forecasting at 0x7d7d9c99c220>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/forecasting.py", line 471, in run_forecasting
+    comparison_df = compare_models(cv_results)
+                    │              └ {}
+                    └ <function compare_models at 0x7d7d9c9bf9c0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/evaluation.py", line 76, in compare_models
+    df = pd.DataFrame(rows).sort_values("WAPE").reset_index(drop=True)
+         │  │         └ []
+         │  └ <class 'pandas.DataFrame'>
+         └ <module 'pandas' from '/home/user/miniconda3/lib/python3.13/site-packages/pandas/__init__.py'>
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/frame.py", line 8347, in sort_values
+    k = self._get_label_or_level_values(by[0], axis=axis)
+        │    │                          │           └ 0
+        │    │                          └ ['WAPE']
+        │    └ <function NDFrame._get_label_or_level_values at 0x7d7e153bdd00>
+        └ Empty DataFrame
+          Columns: []
+          Index: []
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/generic.py", line 1776, in _get_label_or_level_values
+    raise KeyError(key)
+                   └ 'WAPE'
+
+KeyError: 'WAPE'
+2026-07-20 23:02:48 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_pipeline
+2026-07-20 23:02:48 | INFO     | src.pipeline:run_pipeline:33 | 
+╔══════════════════════════════════════════════════════════╗
+║       PROJECT FORESIGHT – NorthBay Living                ║
+║       Demand & Inventory Intelligence Pipeline           ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-20 23:02:48 | INFO     | src.pipeline:run_pipeline:41 | ┌─ STEP 1: Data Preprocessing ─────────────────────────────
+2026-07-20 23:02:49 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_preprocessing
+2026-07-20 23:02:49 | INFO     | src.preprocessing:run_preprocessing:484 | Auto-detected raw file: data.csv
+2026-07-20 23:02:49 | INFO     | src.utils:wrapper:86 | ▶  Starting: load_and_clean_raw
+2026-07-20 23:02:49 | INFO     | src.preprocessing:load_and_clean_raw:98 | Loading raw data from: /home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv
+2026-07-20 23:02:49 | INFO     | src.preprocessing:load_and_clean_raw:104 | Loaded with encoding=latin-1: 541,909 rows, 8 cols
+2026-07-20 23:02:50 | INFO     | src.preprocessing:load_and_clean_raw:137 | Removed 9,288 cancellation rows
+2026-07-20 23:02:50 | INFO     | src.preprocessing:load_and_clean_raw:171 | Removed 5,133 duplicate rows
+2026-07-20 23:02:50 | INFO     | src.preprocessing:load_and_clean_raw:173 | Clean dataset: 478,948 rows | Date range: 2010-12-01 → 2011-12-09
+2026-07-20 23:02:50 | INFO     | src.utils:wrapper:89 | ✔  Completed: load_and_clean_raw in 1.74s
+2026-07-20 23:02:50 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sales_daily
+2026-07-20 23:02:50 | INFO     | src.preprocessing:build_sales_daily:183 | Building sales_daily table…
+2026-07-20 23:02:52 | INFO     | src.preprocessing:build_sales_daily:227 | sales_daily: 1,421,948 rows | 3802 SKUs | 374 dates
+2026-07-20 23:02:52 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sales_daily in 1.76s
+2026-07-20 23:02:55 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → sales_daily.csv
+2026-07-20 23:02:55 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sku_master
+2026-07-20 23:02:55 | INFO     | src.preprocessing:build_sku_master:237 | Building sku_master table…
+2026-07-20 23:02:56 | INFO     | src.preprocessing:build_sku_master:300 | sku_master: 3,802 SKUs across 10 categories
+2026-07-20 23:02:56 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sku_master in 0.54s
+2026-07-20 23:02:56 | INFO     | src.utils:save_csv:140 | 💾 Saved 3,802 rows → sku_master.csv
+2026-07-20 23:02:56 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_calendar
+2026-07-20 23:02:56 | INFO     | src.preprocessing:build_calendar:310 | Building calendar table…
+2026-07-20 23:02:56 | INFO     | src.preprocessing:build_calendar:374 | calendar: 374 rows | 2 years
+2026-07-20 23:02:56 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_calendar in 0.02s
+2026-07-20 23:02:56 | INFO     | src.utils:save_csv:140 | 💾 Saved 374 rows → calendar.csv
+2026-07-20 23:02:56 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_inventory_snapshots
+2026-07-20 23:02:56 | INFO     | src.preprocessing:build_inventory_snapshots:389 | Simulating inventory snapshots…
+2026-07-20 23:04:41 | INFO     | src.preprocessing:build_inventory_snapshots:461 | inventory_snapshots: 1,421,948 rows
+2026-07-20 23:04:42 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_inventory_snapshots in 105.88s
+2026-07-20 23:04:52 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → inventory_snapshots.csv
+2026-07-20 23:04:52 | INFO     | src.preprocessing:run_preprocessing:505 | ✅ All four FORESIGHT tables saved to data/processed/
+2026-07-20 23:04:52 | INFO     | src.preprocessing:_print_assumptions:514 | 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DOCUMENTED SIMULATION ASSUMPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[A] Categories:  Keyword matching on product descriptions
+[B] Inventory:   Starting stock = 12-week avg demand; (s,Q) policy
+[C] ROP:         avg_daily_demand × lead_time × 1.5 safety factor
+[D] Lead Times:  Uniform(3–14) days, seeded=42 (reproducible)
+[E] Promotions:  Flagged when price < 85% of 30-day rolling avg
+[F] EOQ:         sqrt(2 × D × S / H); ordering cost=£50, H=20% of price
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2026-07-20 23:04:52 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_preprocessing in 122.99s
+2026-07-20 23:04:52 | INFO     | src.pipeline:run_pipeline:50 | └─ Step 1 complete ✓
+2026-07-20 23:04:52 | INFO     | src.pipeline:run_pipeline:53 | ┌─ STEP 2: Feature Engineering ────────────────────────────
+2026-07-20 23:04:52 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_feature_engineering
+2026-07-20 23:04:52 | INFO     | src.feature_engineering:run_feature_engineering:88 | Merging tables…
+2026-07-20 23:04:52 | INFO     | src.feature_engineering:run_feature_engineering:115 | Engineering temporal features…
+2026-07-20 23:04:52 | INFO     | src.feature_engineering:run_feature_engineering:131 | Engineering lag features…
+2026-07-20 23:04:53 | INFO     | src.feature_engineering:run_feature_engineering:141 | Engineering rolling features…
+2026-07-20 23:05:12 | INFO     | src.feature_engineering:run_feature_engineering:156 | Engineering price/promotion features…
+2026-07-20 23:05:15 | INFO     | src.feature_engineering:run_feature_engineering:178 | Engineering inventory features…
+2026-07-20 23:05:15 | INFO     | src.feature_engineering:run_feature_engineering:197 | Engineering momentum/volatility features…
+2026-07-20 23:05:57 | INFO     | src.feature_engineering:run_feature_engineering:227 | Engineering revenue features…
+2026-07-20 23:06:41 | INFO     | src.feature_engineering:run_feature_engineering:239 | Engineering lifecycle features…
+2026-07-20 23:06:41 | INFO     | src.feature_engineering:run_feature_engineering:249 | Encoding categorical features…
+2026-07-20 23:06:43 | DEBUG    | src.utils:reduce_mem_usage:133 | Memory reduced: 1116.0 MB → 550.5 MB (50.7% saved)
+2026-07-20 23:07:52 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → features_engineered.csv
+2026-07-20 23:07:52 | INFO     | src.feature_engineering:run_feature_engineering:277 | ✅ Feature engineering complete: 1,421,948 rows × 102 columns
+2026-07-20 23:07:52 | INFO     | src.feature_engineering:run_feature_engineering:278 |    Feature columns: 90
+2026-07-20 23:07:52 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_feature_engineering in 180.71s
+2026-07-20 23:07:52 | INFO     | src.pipeline:run_pipeline:60 | └─ Step 2 complete ✓
+2026-07-20 23:07:52 | INFO     | src.pipeline:run_pipeline:64 | ┌─ STEP 3: Model Training & Forecasting ───────────────────
+2026-07-20 23:07:53 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_forecasting
+2026-07-20 23:07:53 | INFO     | src.forecasting:run_forecasting:458 | Subsetting data for modeling to 460,042 rows (last 120 days)
+2026-07-20 23:07:53 | INFO     | src.forecasting:run_forecasting:463 | SKUs with ≥60 days history: 3,802/3,802
+2026-07-20 23:07:53 | INFO     | src.utils:wrapper:86 | ▶  Starting: cross_validate_models
+2026-07-20 23:07:53 | DEBUG    | src.forecasting:rolling_origin_splits:70 | Fold 1: train 2011-08-11 00:00:00→2011-11-11 00:00:00 | test 2011-11-12 00:00:00→2011-12-09 00:00:00
+2026-07-20 23:07:53 | INFO     | src.forecasting:rolling_origin_splits:74 | Rolling-Origin CV: 1 folds
+2026-07-20 23:07:53 | INFO     | src.forecasting:cross_validate_models:251 | ━━ Fold 1/1 ━━
+2026-07-20 23:07:53 | INFO     | src.forecasting:cross_validate_models:264 |   SeasonalNaive WAPE: 98.72%
+2026-07-20 23:08:46 | INFO     | src.forecasting:cross_validate_models:275 |   RandomForest WAPE: 47.77%
+2026-07-20 23:09:44 | INFO     | src.forecasting:cross_validate_models:275 |   GradientBoosting WAPE: 69.43%
+2026-07-20 23:09:47 | INFO     | src.forecasting:cross_validate_models:275 |   LightGBM WAPE: 70.15%
+2026-07-20 23:09:49 | INFO     | src.forecasting:cross_validate_models:275 |   XGBoost WAPE: 71.60%
+2026-07-20 23:09:49 | INFO     | src.utils:wrapper:89 | ✔  Completed: cross_validate_models in 115.99s
+2026-07-20 23:09:49 | INFO     | src.forecasting:run_forecasting:473 | 
+           model    WAPE     MAPE    MAE     RMSE    Bias  rank
+    RandomForest 47.7717 130.5055 3.0081 244.9517 -0.6825     1
+GradientBoosting 69.4315 123.8079 4.3720 245.3887 -1.2219     2
+        LightGBM 70.1542  98.8401 4.4175 247.3916 -1.2842     3
+         XGBoost 71.6009 121.8245 4.5086 247.3784 -1.1666     4
+   SeasonalNaive 98.7185 158.5332 6.2162 249.6655 -2.2146     5
+2026-07-20 23:09:49 | INFO     | src.evaluation:select_best_model:84 | 🏆 Best model: RandomForest | WAPE=47.77%
+2026-07-20 23:09:49 | INFO     | src.utils:wrapper:86 | ▶  Starting: train_best_model
+2026-07-20 23:09:49 | INFO     | src.forecasting:train_best_model:302 | Training final model: RandomForest on full dataset…
+2026-07-20 23:11:10 | INFO     | src.forecasting:train_best_model:320 |   Top feature: revenue_vs_28d_avg (0.7204)
+2026-07-20 23:11:10 | INFO     | src.forecasting:train_best_model:327 |   Model saved: /home/user/.gemini/antigravity/scratch/foresight/models/model_RandomForest.joblib
+2026-07-20 23:11:10 | INFO     | src.utils:wrapper:89 | ✔  Completed: train_best_model in 80.90s
+2026-07-20 23:11:10 | INFO     | src.utils:wrapper:86 | ▶  Starting: generate_forecast
+2026-07-20 23:11:10 | INFO     | src.forecasting:generate_forecast:391 | Generating 28-day forecast…
+2026-07-20 23:11:10 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_forecasting: Invalid value '[0. 0. 0. ... 0. 0. 0.]' for dtype 'float32'
+Traceback (most recent call last):
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/blocks.py", line 1115, in setitem
+    casted = np_can_hold_element(values.dtype, value)
+             │                   │      │      └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+             │                   │      └ <attribute 'dtype' of 'numpy.ndarray' objects>
+             │                   └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,), dtype=float32)
+             └ <function np_can_hold_element at 0x784ccc0d2480>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/dtypes/cast.py", line 1788, in np_can_hold_element
+    raise LossySetitemError
+          └ <class 'pandas.errors.LossySetitemError'>
+
+pandas.errors.LossySetitemError
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x784cdfa7ef20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x784ce07d4ea0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x784ce089d260>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 66, in run_pipeline
+    forecast_results = run_forecasting(features_df)
+                       │               └         stock_code       date  ...  category_encoded  dow_encoded
+                       │                 0            10002 2010-12-01  ...                 3       ...
+                       └ <function run_forecasting at 0x784c499c8360>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+             │       0            10002 2010-12-01  ...                 3      ...
+             └ <function run_forecasting at 0x784c499c82c0>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+           │       0            10002 2010-12-01  ...                 3      ...
+           └ <function run_forecasting at 0x784c499c8220>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/forecasting.py", line 482, in run_forecasting
+    forecast_df = generate_forecast(df_model, best_model, best_model_name)
+                  │                 │         │           └ 'RandomForest'
+                  │                 │         └ RandomForestRegressor(max_depth=6, min_samples_leaf=5, n_estimators=20,
+                  │                 │                                 n_jobs=1, random_state=42)
+                  │                 └         stock_code       date  ...  category_encoded  dow_encoded
+                  │                   253          10002 2011-08-11  ...                 3       ...
+                  └ <function generate_forecast at 0x784c499c8180>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+             │       253          10002 2011-08-11  ...                 3      ...
+             └ <function generate_forecast at 0x784c499c80e0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/forecasting.py", line 420, in generate_forecast
+    df_extended.loc[df_extended["stock_code"].isin(lag1_update.index), "quantity_lag1"] = (
+    │           │   │                              │           └ <pandas._libs.properties.AxisProperty object at 0x784cc7131fc0>
+    │           │   │                              └ stock_code
+    │           │   │                                10002           0.0
+    │           │   │                                10080           0.0
+    │           │   │                                10120           0.0
+    │           │   │                                10123C          0.0
+    │           │   │                                10124A          0.0
+    │           │   │                                              ...
+    │           │   └         stock_code       date  ...  category_encoded  dow_encoded
+    │           │     253          10002 2011-08-11  ...                 3       ...
+    │           └ <property object at 0x784cc767dfd0>
+    └         stock_code       date  ...  category_encoded  dow_encoded
+      253          10002 2011-08-11  ...                 3       ...
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexing.py", line 938, in __setitem__
+    iloc._setitem_with_indexer(indexer, value, self.name)
+    │    │                     │        │      │    └ <attribute 'name' of 'pandas._libs.indexing.NDFrameIndexerBase' objects>
+    │    │                     │        │      └ <pandas.core.indexing._LocIndexer object at 0x784c499685a0>
+    │    │                     │        └ 253        0.0
+    │    │                     │          254        0.0
+    │    │                     │          255        0.0
+    │    │                     │          256        0.0
+    │    │                     │          257        0.0
+    │    │                     │                    ... 
+    │    │                     │          1421943    0.0
+    │    │                     │          1421944    0.0
+    │    │                     │          14219...
+    │    │                     └ (array([ True,  True,  True, ...,  True,  True,  True], shape=(460042,)), 48)
+    │    └ <function _iLocIndexer._setitem_with_indexer at 0x784cc73eccc0>
+    └ <pandas.core.indexing._iLocIndexer object at 0x784c49968820>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexing.py", line 1953, in _setitem_with_indexer
+    self._setitem_with_indexer_split_path(indexer, value, name)
+    │    │                                │        │      └ 'loc'
+    │    │                                │        └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+    │    │                                └ (array([     0,      1,      2, ..., 460039, 460040, 460041],
+    │    │                                        shape=(460042,)), 48)
+    │    └ <function _iLocIndexer._setitem_with_indexer_split_path at 0x784cc73ecd60>
+    └ <pandas.core.indexing._iLocIndexer object at 0x784c49968820>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexing.py", line 1997, in _setitem_with_indexer_split_path
+    self._setitem_single_column(ilocs[0], value, pi)
+    │    │                      │         │      └ array([     0,      1,      2, ..., 460039, 460040, 460041],
+    │    │                      │         │              shape=(460042,))
+    │    │                      │         └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+    │    │                      └ [48]
+    │    └ <function _iLocIndexer._setitem_single_column at 0x784cc73ecf40>
+    └ <pandas.core.indexing._iLocIndexer object at 0x784c49968820>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexing.py", line 2181, in _setitem_single_column
+    self.obj._mgr.column_setitem(loc, plane_indexer, value)
+    │    │                       │    │              └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+    │    │                       │    └ array([     0,      1,      2, ..., 460039, 460040, 460041],
+    │    │                       │            shape=(460042,))
+    │    │                       └ 48
+    │    └ <attribute 'obj' of 'pandas._libs.indexing.NDFrameIndexerBase' objects>
+    └ <pandas.core.indexing._iLocIndexer object at 0x784c49968820>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/managers.py", line 1520, in column_setitem
+    new_mgr = col_mgr.setitem((idx,), value)
+              │       │        │      └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+              │       │        └ array([     0,      1,      2, ..., 460039, 460040, 460041],
+              │       │                shape=(460042,))
+              │       └ <function BaseBlockManager.setitem at 0x784cc74268e0>
+              └ SingleBlockManager
+                Items: Index([    253,     254,     255,     256,     257,     258,     259,     260,
+                           261,     ...
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/managers.py", line 604, in setitem
+    return self.apply("setitem", indexer=indexer, value=value)
+           │    │                        │              └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+           │    │                        └ (array([     0,      1,      2, ..., 460039, 460040, 460041],
+           │    │                                shape=(460042,)),)
+           │    └ <function BaseBlockManager.apply at 0x784cc7426160>
+           └ SingleBlockManager
+             Items: Index([    253,     254,     255,     256,     257,     258,     259,     260,
+                        261,     ...
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/managers.py", line 442, in apply
+    applied = getattr(b, f)(**kwargs)
+                      │  │    └ {'indexer': (array([     0,      1,      2, ..., 460039, 460040, 460041],
+                      │  │            shape=(460042,)),), 'value': array([0., 0., 0...
+                      │  └ 'setitem'
+                      └ NumpyBlock: 460042 dtype: float32
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/blocks.py", line 1118, in setitem
+    nb = self.coerce_to_target_dtype(value, raise_on_upcast=True)
+         │    │                      └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+         │    └ <function Block.coerce_to_target_dtype at 0x784cc740ca40>
+         └ NumpyBlock: 460042 dtype: float32
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/blocks.py", line 468, in coerce_to_target_dtype
+    raise TypeError(f"Invalid value '{other}' for dtype '{self.values.dtype}'")
+                                      │                   │    └ <attribute 'values' of 'pandas._libs.internals.Block' objects>
+                                      │                   └ NumpyBlock: 460042 dtype: float32
+                                      └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+
+TypeError: Invalid value '[0. 0. 0. ... 0. 0. 0.]' for dtype 'float32'
+2026-07-20 23:11:11 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_pipeline: Invalid value '[0. 0. 0. ... 0. 0. 0.]' for dtype 'float32'
+Traceback (most recent call last):
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/blocks.py", line 1115, in setitem
+    casted = np_can_hold_element(values.dtype, value)
+             │                   │      │      └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+             │                   │      └ <attribute 'dtype' of 'numpy.ndarray' objects>
+             │                   └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,), dtype=float32)
+             └ <function np_can_hold_element at 0x784ccc0d2480>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/dtypes/cast.py", line 1788, in np_can_hold_element
+    raise LossySetitemError
+          └ <class 'pandas.errors.LossySetitemError'>
+
+pandas.errors.LossySetitemError
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x784cdfa7ef20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x784ce07d4ea0>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x784ce089d260>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 66, in run_pipeline
+    forecast_results = run_forecasting(features_df)
+                       │               └         stock_code       date  ...  category_encoded  dow_encoded
+                       │                 0            10002 2010-12-01  ...                 3       ...
+                       └ <function run_forecasting at 0x784c499c8360>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+             │       0            10002 2010-12-01  ...                 3      ...
+             └ <function run_forecasting at 0x784c499c82c0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+           │       0            10002 2010-12-01  ...                 3      ...
+           └ <function run_forecasting at 0x784c499c8220>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/forecasting.py", line 482, in run_forecasting
+    forecast_df = generate_forecast(df_model, best_model, best_model_name)
+                  │                 │         │           └ 'RandomForest'
+                  │                 │         └ RandomForestRegressor(max_depth=6, min_samples_leaf=5, n_estimators=20,
+                  │                 │                                 n_jobs=1, random_state=42)
+                  │                 └         stock_code       date  ...  category_encoded  dow_encoded
+                  │                   253          10002 2011-08-11  ...                 3       ...
+                  └ <function generate_forecast at 0x784c499c8180>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {}
+             │     └ (        stock_code       date  ...  category_encoded  dow_encoded
+             │       253          10002 2011-08-11  ...                 3      ...
+             └ <function generate_forecast at 0x784c499c80e0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/forecasting.py", line 420, in generate_forecast
+    df_extended.loc[df_extended["stock_code"].isin(lag1_update.index), "quantity_lag1"] = (
+    │           │   │                              │           └ <pandas._libs.properties.AxisProperty object at 0x784cc7131fc0>
+    │           │   │                              └ stock_code
+    │           │   │                                10002           0.0
+    │           │   │                                10080           0.0
+    │           │   │                                10120           0.0
+    │           │   │                                10123C          0.0
+    │           │   │                                10124A          0.0
+    │           │   │                                              ...
+    │           │   └         stock_code       date  ...  category_encoded  dow_encoded
+    │           │     253          10002 2011-08-11  ...                 3       ...
+    │           └ <property object at 0x784cc767dfd0>
+    └         stock_code       date  ...  category_encoded  dow_encoded
+      253          10002 2011-08-11  ...                 3       ...
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexing.py", line 938, in __setitem__
+    iloc._setitem_with_indexer(indexer, value, self.name)
+    │    │                     │        │      │    └ <attribute 'name' of 'pandas._libs.indexing.NDFrameIndexerBase' objects>
+    │    │                     │        │      └ <pandas.core.indexing._LocIndexer object at 0x784c499685a0>
+    │    │                     │        └ 253        0.0
+    │    │                     │          254        0.0
+    │    │                     │          255        0.0
+    │    │                     │          256        0.0
+    │    │                     │          257        0.0
+    │    │                     │                    ... 
+    │    │                     │          1421943    0.0
+    │    │                     │          1421944    0.0
+    │    │                     │          14219...
+    │    │                     └ (array([ True,  True,  True, ...,  True,  True,  True], shape=(460042,)), 48)
+    │    └ <function _iLocIndexer._setitem_with_indexer at 0x784cc73eccc0>
+    └ <pandas.core.indexing._iLocIndexer object at 0x784c49968820>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexing.py", line 1953, in _setitem_with_indexer
+    self._setitem_with_indexer_split_path(indexer, value, name)
+    │    │                                │        │      └ 'loc'
+    │    │                                │        └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+    │    │                                └ (array([     0,      1,      2, ..., 460039, 460040, 460041],
+    │    │                                        shape=(460042,)), 48)
+    │    └ <function _iLocIndexer._setitem_with_indexer_split_path at 0x784cc73ecd60>
+    └ <pandas.core.indexing._iLocIndexer object at 0x784c49968820>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexing.py", line 1997, in _setitem_with_indexer_split_path
+    self._setitem_single_column(ilocs[0], value, pi)
+    │    │                      │         │      └ array([     0,      1,      2, ..., 460039, 460040, 460041],
+    │    │                      │         │              shape=(460042,))
+    │    │                      │         └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+    │    │                      └ [48]
+    │    └ <function _iLocIndexer._setitem_single_column at 0x784cc73ecf40>
+    └ <pandas.core.indexing._iLocIndexer object at 0x784c49968820>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexing.py", line 2181, in _setitem_single_column
+    self.obj._mgr.column_setitem(loc, plane_indexer, value)
+    │    │                       │    │              └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+    │    │                       │    └ array([     0,      1,      2, ..., 460039, 460040, 460041],
+    │    │                       │            shape=(460042,))
+    │    │                       └ 48
+    │    └ <attribute 'obj' of 'pandas._libs.indexing.NDFrameIndexerBase' objects>
+    └ <pandas.core.indexing._iLocIndexer object at 0x784c49968820>
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/managers.py", line 1520, in column_setitem
+    new_mgr = col_mgr.setitem((idx,), value)
+              │       │        │      └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+              │       │        └ array([     0,      1,      2, ..., 460039, 460040, 460041],
+              │       │                shape=(460042,))
+              │       └ <function BaseBlockManager.setitem at 0x784cc74268e0>
+              └ SingleBlockManager
+                Items: Index([    253,     254,     255,     256,     257,     258,     259,     260,
+                           261,     ...
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/managers.py", line 604, in setitem
+    return self.apply("setitem", indexer=indexer, value=value)
+           │    │                        │              └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+           │    │                        └ (array([     0,      1,      2, ..., 460039, 460040, 460041],
+           │    │                                shape=(460042,)),)
+           │    └ <function BaseBlockManager.apply at 0x784cc7426160>
+           └ SingleBlockManager
+             Items: Index([    253,     254,     255,     256,     257,     258,     259,     260,
+                        261,     ...
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/managers.py", line 442, in apply
+    applied = getattr(b, f)(**kwargs)
+                      │  │    └ {'indexer': (array([     0,      1,      2, ..., 460039, 460040, 460041],
+                      │  │            shape=(460042,)),), 'value': array([0., 0., 0...
+                      │  └ 'setitem'
+                      └ NumpyBlock: 460042 dtype: float32
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/blocks.py", line 1118, in setitem
+    nb = self.coerce_to_target_dtype(value, raise_on_upcast=True)
+         │    │                      └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+         │    └ <function Block.coerce_to_target_dtype at 0x784cc740ca40>
+         └ NumpyBlock: 460042 dtype: float32
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/internals/blocks.py", line 468, in coerce_to_target_dtype
+    raise TypeError(f"Invalid value '{other}' for dtype '{self.values.dtype}'")
+                                      │                   │    └ <attribute 'values' of 'pandas._libs.internals.Block' objects>
+                                      │                   └ NumpyBlock: 460042 dtype: float32
+                                      └ array([0., 0., 0., ..., 0., 0., 0.], shape=(460042,))
+
+TypeError: Invalid value '[0. 0. 0. ... 0. 0. 0.]' for dtype 'float32'
+2026-07-20 23:11:44 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_pipeline
+2026-07-20 23:11:44 | INFO     | src.pipeline:run_pipeline:33 | 
+╔══════════════════════════════════════════════════════════╗
+║       PROJECT FORESIGHT – NorthBay Living                ║
+║       Demand & Inventory Intelligence Pipeline           ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-20 23:11:44 | INFO     | src.pipeline:run_pipeline:41 | ┌─ STEP 1: Data Preprocessing ─────────────────────────────
+2026-07-20 23:11:44 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_preprocessing
+2026-07-20 23:11:44 | INFO     | src.preprocessing:run_preprocessing:484 | Auto-detected raw file: data.csv
+2026-07-20 23:11:44 | INFO     | src.utils:wrapper:86 | ▶  Starting: load_and_clean_raw
+2026-07-20 23:11:44 | INFO     | src.preprocessing:load_and_clean_raw:98 | Loading raw data from: /home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv
+2026-07-20 23:11:45 | INFO     | src.preprocessing:load_and_clean_raw:104 | Loaded with encoding=latin-1: 541,909 rows, 8 cols
+2026-07-20 23:11:45 | INFO     | src.preprocessing:load_and_clean_raw:137 | Removed 9,288 cancellation rows
+2026-07-20 23:11:46 | INFO     | src.preprocessing:load_and_clean_raw:171 | Removed 5,133 duplicate rows
+2026-07-20 23:11:46 | INFO     | src.preprocessing:load_and_clean_raw:173 | Clean dataset: 478,948 rows | Date range: 2010-12-01 → 2011-12-09
+2026-07-20 23:11:46 | INFO     | src.utils:wrapper:89 | ✔  Completed: load_and_clean_raw in 1.75s
+2026-07-20 23:11:46 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sales_daily
+2026-07-20 23:11:46 | INFO     | src.preprocessing:build_sales_daily:183 | Building sales_daily table…
+2026-07-20 23:11:48 | INFO     | src.preprocessing:build_sales_daily:227 | sales_daily: 1,421,948 rows | 3802 SKUs | 374 dates
+2026-07-20 23:11:48 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sales_daily in 1.83s
+2026-07-20 23:11:51 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → sales_daily.csv
+2026-07-20 23:11:51 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sku_master
+2026-07-20 23:11:51 | INFO     | src.preprocessing:build_sku_master:237 | Building sku_master table…
+2026-07-20 23:11:51 | INFO     | src.preprocessing:build_sku_master:300 | sku_master: 3,802 SKUs across 10 categories
+2026-07-20 23:11:51 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sku_master in 0.60s
+2026-07-20 23:11:51 | INFO     | src.utils:save_csv:140 | 💾 Saved 3,802 rows → sku_master.csv
+2026-07-20 23:11:51 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_calendar
+2026-07-20 23:11:51 | INFO     | src.preprocessing:build_calendar:310 | Building calendar table…
+2026-07-20 23:11:51 | INFO     | src.preprocessing:build_calendar:374 | calendar: 374 rows | 2 years
+2026-07-20 23:11:51 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_calendar in 0.03s
+2026-07-20 23:11:51 | INFO     | src.utils:save_csv:140 | 💾 Saved 374 rows → calendar.csv
+2026-07-20 23:11:51 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_inventory_snapshots
+2026-07-20 23:11:51 | INFO     | src.preprocessing:build_inventory_snapshots:389 | Simulating inventory snapshots…
+2026-07-20 23:13:48 | INFO     | src.preprocessing:build_inventory_snapshots:461 | inventory_snapshots: 1,421,948 rows
+2026-07-20 23:13:48 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_inventory_snapshots in 116.56s
+2026-07-20 23:13:59 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → inventory_snapshots.csv
+2026-07-20 23:13:59 | INFO     | src.preprocessing:run_preprocessing:505 | ✅ All four FORESIGHT tables saved to data/processed/
+2026-07-20 23:13:59 | INFO     | src.preprocessing:_print_assumptions:514 | 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DOCUMENTED SIMULATION ASSUMPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[A] Categories:  Keyword matching on product descriptions
+[B] Inventory:   Starting stock = 12-week avg demand; (s,Q) policy
+[C] ROP:         avg_daily_demand × lead_time × 1.5 safety factor
+[D] Lead Times:  Uniform(3–14) days, seeded=42 (reproducible)
+[E] Promotions:  Flagged when price < 85% of 30-day rolling avg
+[F] EOQ:         sqrt(2 × D × S / H); ordering cost=£50, H=20% of price
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2026-07-20 23:13:59 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_preprocessing in 134.81s
+2026-07-20 23:13:59 | INFO     | src.pipeline:run_pipeline:50 | └─ Step 1 complete ✓
+2026-07-20 23:13:59 | INFO     | src.pipeline:run_pipeline:53 | ┌─ STEP 2: Feature Engineering ────────────────────────────
+2026-07-20 23:13:59 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_feature_engineering
+2026-07-20 23:13:59 | INFO     | src.feature_engineering:run_feature_engineering:88 | Merging tables…
+2026-07-20 23:14:00 | INFO     | src.feature_engineering:run_feature_engineering:115 | Engineering temporal features…
+2026-07-20 23:14:00 | INFO     | src.feature_engineering:run_feature_engineering:131 | Engineering lag features…
+2026-07-20 23:14:00 | INFO     | src.feature_engineering:run_feature_engineering:141 | Engineering rolling features…
+2026-07-20 23:14:19 | INFO     | src.feature_engineering:run_feature_engineering:156 | Engineering price/promotion features…
+2026-07-20 23:14:21 | INFO     | src.feature_engineering:run_feature_engineering:178 | Engineering inventory features…
+2026-07-20 23:14:21 | INFO     | src.feature_engineering:run_feature_engineering:197 | Engineering momentum/volatility features…
+2026-07-20 23:15:05 | INFO     | src.feature_engineering:run_feature_engineering:227 | Engineering revenue features…
+2026-07-20 23:15:48 | INFO     | src.feature_engineering:run_feature_engineering:239 | Engineering lifecycle features…
+2026-07-20 23:15:48 | INFO     | src.feature_engineering:run_feature_engineering:249 | Encoding categorical features…
+2026-07-20 23:15:49 | DEBUG    | src.utils:reduce_mem_usage:133 | Memory reduced: 1116.0 MB → 550.5 MB (50.7% saved)
+2026-07-20 23:17:00 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → features_engineered.csv
+2026-07-20 23:17:00 | INFO     | src.feature_engineering:run_feature_engineering:277 | ✅ Feature engineering complete: 1,421,948 rows × 102 columns
+2026-07-20 23:17:00 | INFO     | src.feature_engineering:run_feature_engineering:278 |    Feature columns: 90
+2026-07-20 23:17:00 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_feature_engineering in 180.86s
+2026-07-20 23:17:00 | INFO     | src.pipeline:run_pipeline:60 | └─ Step 2 complete ✓
+2026-07-20 23:17:00 | INFO     | src.pipeline:run_pipeline:64 | ┌─ STEP 3: Model Training & Forecasting ───────────────────
+2026-07-20 23:17:00 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_forecasting
+2026-07-20 23:17:01 | INFO     | src.forecasting:run_forecasting:460 | Subsetting data for modeling to 460,042 rows (last 120 days)
+2026-07-20 23:17:01 | INFO     | src.forecasting:run_forecasting:465 | SKUs with ≥60 days history: 3,802/3,802
+2026-07-20 23:17:01 | INFO     | src.utils:wrapper:86 | ▶  Starting: cross_validate_models
+2026-07-20 23:17:01 | DEBUG    | src.forecasting:rolling_origin_splits:70 | Fold 1: train 2011-08-11 00:00:00→2011-11-11 00:00:00 | test 2011-11-12 00:00:00→2011-12-09 00:00:00
+2026-07-20 23:17:01 | INFO     | src.forecasting:rolling_origin_splits:74 | Rolling-Origin CV: 1 folds
+2026-07-20 23:17:01 | INFO     | src.forecasting:cross_validate_models:251 | ━━ Fold 1/1 ━━
+2026-07-20 23:17:01 | INFO     | src.forecasting:cross_validate_models:264 |   SeasonalNaive WAPE: 98.72%
+2026-07-20 23:17:59 | INFO     | src.forecasting:cross_validate_models:275 |   RandomForest WAPE: 47.77%
+2026-07-20 23:19:01 | INFO     | src.forecasting:cross_validate_models:275 |   GradientBoosting WAPE: 69.43%
+2026-07-20 23:19:03 | INFO     | src.forecasting:cross_validate_models:275 |   LightGBM WAPE: 70.15%
+2026-07-20 23:19:06 | INFO     | src.forecasting:cross_validate_models:275 |   XGBoost WAPE: 71.60%
+2026-07-20 23:19:06 | INFO     | src.utils:wrapper:89 | ✔  Completed: cross_validate_models in 125.16s
+2026-07-20 23:19:06 | INFO     | src.forecasting:run_forecasting:475 | 
+           model    WAPE     MAPE    MAE     RMSE    Bias  rank
+    RandomForest 47.7717 130.5055 3.0081 244.9517 -0.6825     1
+GradientBoosting 69.4315 123.8079 4.3720 245.3887 -1.2219     2
+        LightGBM 70.1542  98.8401 4.4175 247.3916 -1.2842     3
+         XGBoost 71.6009 121.8245 4.5086 247.3784 -1.1666     4
+   SeasonalNaive 98.7185 158.5332 6.2162 249.6655 -2.2146     5
+2026-07-20 23:19:06 | INFO     | src.evaluation:select_best_model:84 | 🏆 Best model: RandomForest | WAPE=47.77%
+2026-07-20 23:19:06 | INFO     | src.utils:wrapper:86 | ▶  Starting: train_best_model
+2026-07-20 23:19:06 | INFO     | src.forecasting:train_best_model:302 | Training final model: RandomForest on full dataset…
+2026-07-20 23:20:34 | INFO     | src.forecasting:train_best_model:320 |   Top feature: revenue_vs_28d_avg (0.7204)
+2026-07-20 23:20:34 | INFO     | src.forecasting:train_best_model:327 |   Model saved: /home/user/.gemini/antigravity/scratch/foresight/models/model_RandomForest.joblib
+2026-07-20 23:20:34 | INFO     | src.utils:wrapper:89 | ✔  Completed: train_best_model in 87.91s
+2026-07-20 23:20:34 | INFO     | src.utils:wrapper:86 | ▶  Starting: generate_forecast
+2026-07-20 23:20:34 | INFO     | src.forecasting:generate_forecast:391 | Generating 28-day forecast…
+2026-07-20 23:20:44 | INFO     | src.utils:save_csv:140 | 💾 Saved 106,456 rows → forecast_output.csv
+2026-07-20 23:20:44 | INFO     | src.forecasting:generate_forecast:432 | ✅ Forecast saved: 106,456 rows
+2026-07-20 23:20:44 | INFO     | src.utils:wrapper:89 | ✔  Completed: generate_forecast in 9.89s
+2026-07-20 23:20:44 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_forecasting in 223.25s
+2026-07-20 23:20:44 | INFO     | src.pipeline:run_pipeline:75 | └─ Step 3 complete ✓
+2026-07-20 23:20:44 | INFO     | src.pipeline:run_pipeline:87 | ┌─ STEP 4: Risk Scoring ───────────────────────────────────
+2026-07-20 23:20:44 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_risk_scoring
+2026-07-20 23:20:45 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_risk_scoring: 'avg_daily_demand'
+Traceback (most recent call last):
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           │    │               └ 'avg_daily_demand'
+           │    └ <pandas._libs.properties.CachedProperty object at 0x738dce383ec0>
+           └ Index(['stock_code', 'date', 'opening_inventory', 'units_sold',
+                    'closing_inventory', 'reorder_triggered', 'reorder_poi...
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+
+KeyError: 'avg_daily_demand'
+
+
+The above exception was the direct cause of the following exception:
+
+
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x738de2686f20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x738de34d8ea0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x738de35a1260>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 89, in run_pipeline
+    risk_df = run_risk_scoring(
+              └ <function run_risk_scoring at 0x738d4a659da0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'features_df':         stock_code       date  ...  category_encoded  dow_encoded
+             │     │         0            10002 2010-12-01  ...         ...
+             │     └ ()
+             └ <function run_risk_scoring at 0x738d4a659f80>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'features_df':         stock_code       date  ...  category_encoded  dow_encoded
+           │     │         0            10002 2010-12-01  ...         ...
+           │     └ ()
+           └ <function run_risk_scoring at 0x738d4a6585e0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/risk_scoring.py", line 212, in run_risk_scoring
+    risk_df["avg_daily_demand"]   = risk_df["avg_daily_demand"].fillna(0)
+    │                               └         stock_code  ...                         description
+    │                                 0            10002  ...          Inflatable Political Globe
+    │                                 1    ...
+    └         stock_code  ...                         description
+      0            10002  ...          Inflatable Political Globe
+      1    ...
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              │    │               └ 'avg_daily_demand'
+              │    └ <pandas._libs.properties.AxisProperty object at 0x738dcddbff70>
+              └         stock_code  ...                         description
+                0            10002  ...          Inflatable Political Globe
+                1    ...
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+                   └ 'avg_daily_demand'
+
+KeyError: 'avg_daily_demand'
+2026-07-20 23:20:45 | ERROR    | src.utils:wrapper:101 | ✘  Error in run_pipeline: 'avg_daily_demand'
+Traceback (most recent call last):
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           │    │               └ 'avg_daily_demand'
+           │    └ <pandas._libs.properties.CachedProperty object at 0x738dce383ec0>
+           └ Index(['stock_code', 'date', 'opening_inventory', 'units_sold',
+                    'closing_inventory', 'reorder_triggered', 'reorder_poi...
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+
+KeyError: 'avg_daily_demand'
+
+
+The above exception was the direct cause of the following exception:
+
+
+Traceback (most recent call last):
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/main.py", line 15, in <module>
+    run_pipeline(skip_training=skip_train)
+    │                          └ False
+    └ <function run_pipeline at 0x738de2686f20>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'skip_training': False}
+             │     └ ()
+             └ <function run_pipeline at 0x738de34d8ea0>
+
+> File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'skip_training': False}
+           │     └ ()
+           └ <function run_pipeline at 0x738de35a1260>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/pipeline.py", line 89, in run_pipeline
+    risk_df = run_risk_scoring(
+              └ <function run_risk_scoring at 0x738d4a659da0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 87, in wrapper
+    result = func(*args, **kwargs)
+             │     │       └ {'features_df':         stock_code       date  ...  category_encoded  dow_encoded
+             │     │         0            10002 2010-12-01  ...         ...
+             │     └ ()
+             └ <function run_risk_scoring at 0x738d4a659f80>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/utils.py", line 99, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'features_df':         stock_code       date  ...  category_encoded  dow_encoded
+           │     │         0            10002 2010-12-01  ...         ...
+           │     └ ()
+           └ <function run_risk_scoring at 0x738d4a6585e0>
+
+  File "/home/user/.gemini/antigravity/scratch/foresight/src/risk_scoring.py", line 212, in run_risk_scoring
+    risk_df["avg_daily_demand"]   = risk_df["avg_daily_demand"].fillna(0)
+    │                               └         stock_code  ...                         description
+    │                                 0            10002  ...          Inflatable Political Globe
+    │                                 1    ...
+    └         stock_code  ...                         description
+      0            10002  ...          Inflatable Political Globe
+      1    ...
+
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              │    │               └ 'avg_daily_demand'
+              │    └ <pandas._libs.properties.AxisProperty object at 0x738dcddbff70>
+              └         stock_code  ...                         description
+                0            10002  ...          Inflatable Political Globe
+                1    ...
+  File "/home/user/miniconda3/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+                   └ 'avg_daily_demand'
+
+KeyError: 'avg_daily_demand'
+2026-07-20 23:21:22 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_pipeline
+2026-07-20 23:21:22 | INFO     | src.pipeline:run_pipeline:33 | 
+╔══════════════════════════════════════════════════════════╗
+║       PROJECT FORESIGHT – NorthBay Living                ║
+║       Demand & Inventory Intelligence Pipeline           ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-20 23:21:22 | INFO     | src.pipeline:run_pipeline:41 | ┌─ STEP 1: Data Preprocessing ─────────────────────────────
+2026-07-20 23:21:22 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_preprocessing
+2026-07-20 23:21:22 | INFO     | src.preprocessing:run_preprocessing:484 | Auto-detected raw file: data.csv
+2026-07-20 23:21:22 | INFO     | src.utils:wrapper:86 | ▶  Starting: load_and_clean_raw
+2026-07-20 23:21:22 | INFO     | src.preprocessing:load_and_clean_raw:98 | Loading raw data from: /home/user/.gemini/antigravity/scratch/foresight/data/raw/data.csv
+2026-07-20 23:21:23 | INFO     | src.preprocessing:load_and_clean_raw:104 | Loaded with encoding=latin-1: 541,909 rows, 8 cols
+2026-07-20 23:21:23 | INFO     | src.preprocessing:load_and_clean_raw:137 | Removed 9,288 cancellation rows
+2026-07-20 23:21:24 | INFO     | src.preprocessing:load_and_clean_raw:171 | Removed 5,133 duplicate rows
+2026-07-20 23:21:24 | INFO     | src.preprocessing:load_and_clean_raw:173 | Clean dataset: 478,948 rows | Date range: 2010-12-01 → 2011-12-09
+2026-07-20 23:21:24 | INFO     | src.utils:wrapper:89 | ✔  Completed: load_and_clean_raw in 1.76s
+2026-07-20 23:21:24 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sales_daily
+2026-07-20 23:21:24 | INFO     | src.preprocessing:build_sales_daily:183 | Building sales_daily table…
+2026-07-20 23:21:25 | INFO     | src.preprocessing:build_sales_daily:227 | sales_daily: 1,421,948 rows | 3802 SKUs | 374 dates
+2026-07-20 23:21:25 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sales_daily in 1.81s
+2026-07-20 23:21:28 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → sales_daily.csv
+2026-07-20 23:21:28 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_sku_master
+2026-07-20 23:21:28 | INFO     | src.preprocessing:build_sku_master:237 | Building sku_master table…
+2026-07-20 23:21:29 | INFO     | src.preprocessing:build_sku_master:300 | sku_master: 3,802 SKUs across 10 categories
+2026-07-20 23:21:29 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_sku_master in 0.58s
+2026-07-20 23:21:29 | INFO     | src.utils:save_csv:140 | 💾 Saved 3,802 rows → sku_master.csv
+2026-07-20 23:21:29 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_calendar
+2026-07-20 23:21:29 | INFO     | src.preprocessing:build_calendar:310 | Building calendar table…
+2026-07-20 23:21:29 | INFO     | src.preprocessing:build_calendar:374 | calendar: 374 rows | 2 years
+2026-07-20 23:21:29 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_calendar in 0.03s
+2026-07-20 23:21:29 | INFO     | src.utils:save_csv:140 | 💾 Saved 374 rows → calendar.csv
+2026-07-20 23:21:29 | INFO     | src.utils:wrapper:86 | ▶  Starting: build_inventory_snapshots
+2026-07-20 23:21:29 | INFO     | src.preprocessing:build_inventory_snapshots:389 | Simulating inventory snapshots…
+2026-07-20 23:23:24 | INFO     | src.preprocessing:build_inventory_snapshots:461 | inventory_snapshots: 1,421,948 rows
+2026-07-20 23:23:25 | INFO     | src.utils:wrapper:89 | ✔  Completed: build_inventory_snapshots in 115.54s
+2026-07-20 23:23:36 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → inventory_snapshots.csv
+2026-07-20 23:23:36 | INFO     | src.preprocessing:run_preprocessing:505 | ✅ All four FORESIGHT tables saved to data/processed/
+2026-07-20 23:23:36 | INFO     | src.preprocessing:_print_assumptions:514 | 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DOCUMENTED SIMULATION ASSUMPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[A] Categories:  Keyword matching on product descriptions
+[B] Inventory:   Starting stock = 12-week avg demand; (s,Q) policy
+[C] ROP:         avg_daily_demand × lead_time × 1.5 safety factor
+[D] Lead Times:  Uniform(3–14) days, seeded=42 (reproducible)
+[E] Promotions:  Flagged when price < 85% of 30-day rolling avg
+[F] EOQ:         sqrt(2 × D × S / H); ordering cost=£50, H=20% of price
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2026-07-20 23:23:36 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_preprocessing in 134.12s
+2026-07-20 23:23:36 | INFO     | src.pipeline:run_pipeline:50 | └─ Step 1 complete ✓
+2026-07-20 23:23:36 | INFO     | src.pipeline:run_pipeline:53 | ┌─ STEP 2: Feature Engineering ────────────────────────────
+2026-07-20 23:23:36 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_feature_engineering
+2026-07-20 23:23:36 | INFO     | src.feature_engineering:run_feature_engineering:88 | Merging tables…
+2026-07-20 23:23:37 | INFO     | src.feature_engineering:run_feature_engineering:115 | Engineering temporal features…
+2026-07-20 23:23:37 | INFO     | src.feature_engineering:run_feature_engineering:131 | Engineering lag features…
+2026-07-20 23:23:37 | INFO     | src.feature_engineering:run_feature_engineering:141 | Engineering rolling features…
+2026-07-20 23:23:56 | INFO     | src.feature_engineering:run_feature_engineering:156 | Engineering price/promotion features…
+2026-07-20 23:23:59 | INFO     | src.feature_engineering:run_feature_engineering:178 | Engineering inventory features…
+2026-07-20 23:23:59 | INFO     | src.feature_engineering:run_feature_engineering:197 | Engineering momentum/volatility features…
+2026-07-20 23:24:41 | INFO     | src.feature_engineering:run_feature_engineering:227 | Engineering revenue features…
+2026-07-20 23:25:24 | INFO     | src.feature_engineering:run_feature_engineering:239 | Engineering lifecycle features…
+2026-07-20 23:25:24 | INFO     | src.feature_engineering:run_feature_engineering:249 | Encoding categorical features…
+2026-07-20 23:25:24 | DEBUG    | src.utils:reduce_mem_usage:133 | Memory reduced: 1116.0 MB → 550.5 MB (50.7% saved)
+2026-07-20 23:26:35 | INFO     | src.utils:save_csv:140 | 💾 Saved 1,421,948 rows → features_engineered.csv
+2026-07-20 23:26:35 | INFO     | src.feature_engineering:run_feature_engineering:277 | ✅ Feature engineering complete: 1,421,948 rows × 102 columns
+2026-07-20 23:26:35 | INFO     | src.feature_engineering:run_feature_engineering:278 |    Feature columns: 90
+2026-07-20 23:26:35 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_feature_engineering in 179.16s
+2026-07-20 23:26:35 | INFO     | src.pipeline:run_pipeline:60 | └─ Step 2 complete ✓
+2026-07-20 23:26:35 | INFO     | src.pipeline:run_pipeline:64 | ┌─ STEP 3: Model Training & Forecasting ───────────────────
+2026-07-20 23:26:36 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_forecasting
+2026-07-20 23:26:36 | INFO     | src.forecasting:run_forecasting:460 | Subsetting data for modeling to 460,042 rows (last 120 days)
+2026-07-20 23:26:36 | INFO     | src.forecasting:run_forecasting:465 | SKUs with ≥60 days history: 3,802/3,802
+2026-07-20 23:26:36 | INFO     | src.utils:wrapper:86 | ▶  Starting: cross_validate_models
+2026-07-20 23:26:36 | DEBUG    | src.forecasting:rolling_origin_splits:70 | Fold 1: train 2011-08-11 00:00:00→2011-11-11 00:00:00 | test 2011-11-12 00:00:00→2011-12-09 00:00:00
+2026-07-20 23:26:36 | INFO     | src.forecasting:rolling_origin_splits:74 | Rolling-Origin CV: 1 folds
+2026-07-20 23:26:36 | INFO     | src.forecasting:cross_validate_models:251 | ━━ Fold 1/1 ━━
+2026-07-20 23:26:36 | INFO     | src.forecasting:cross_validate_models:264 |   SeasonalNaive WAPE: 98.72%
+2026-07-20 23:27:35 | INFO     | src.forecasting:cross_validate_models:275 |   RandomForest WAPE: 47.77%
+2026-07-20 23:28:37 | INFO     | src.forecasting:cross_validate_models:275 |   GradientBoosting WAPE: 69.43%
+2026-07-20 23:28:39 | INFO     | src.forecasting:cross_validate_models:275 |   LightGBM WAPE: 70.15%
+2026-07-20 23:28:41 | INFO     | src.forecasting:cross_validate_models:275 |   XGBoost WAPE: 71.60%
+2026-07-20 23:28:41 | INFO     | src.utils:wrapper:89 | ✔  Completed: cross_validate_models in 125.47s
+2026-07-20 23:28:41 | INFO     | src.forecasting:run_forecasting:475 | 
+           model    WAPE     MAPE    MAE     RMSE    Bias  rank
+    RandomForest 47.7717 130.5055 3.0081 244.9517 -0.6825     1
+GradientBoosting 69.4315 123.8079 4.3720 245.3887 -1.2219     2
+        LightGBM 70.1542  98.8401 4.4175 247.3916 -1.2842     3
+         XGBoost 71.6009 121.8245 4.5086 247.3784 -1.1666     4
+   SeasonalNaive 98.7185 158.5332 6.2162 249.6655 -2.2146     5
+2026-07-20 23:28:41 | INFO     | src.evaluation:select_best_model:84 | 🏆 Best model: RandomForest | WAPE=47.77%
+2026-07-20 23:28:41 | INFO     | src.utils:wrapper:86 | ▶  Starting: train_best_model
+2026-07-20 23:28:41 | INFO     | src.forecasting:train_best_model:302 | Training final model: RandomForest on full dataset…
+2026-07-20 23:30:08 | INFO     | src.forecasting:train_best_model:320 |   Top feature: revenue_vs_28d_avg (0.7204)
+2026-07-20 23:30:08 | INFO     | src.forecasting:train_best_model:327 |   Model saved: /home/user/.gemini/antigravity/scratch/foresight/models/model_RandomForest.joblib
+2026-07-20 23:30:08 | INFO     | src.utils:wrapper:89 | ✔  Completed: train_best_model in 86.74s
+2026-07-20 23:30:08 | INFO     | src.utils:wrapper:86 | ▶  Starting: generate_forecast
+2026-07-20 23:30:08 | INFO     | src.forecasting:generate_forecast:391 | Generating 28-day forecast…
+2026-07-20 23:30:19 | INFO     | src.utils:save_csv:140 | 💾 Saved 106,456 rows → forecast_output.csv
+2026-07-20 23:30:19 | INFO     | src.forecasting:generate_forecast:432 | ✅ Forecast saved: 106,456 rows
+2026-07-20 23:30:19 | INFO     | src.utils:wrapper:89 | ✔  Completed: generate_forecast in 10.62s
+2026-07-20 23:30:19 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_forecasting in 223.12s
+2026-07-20 23:30:19 | INFO     | src.pipeline:run_pipeline:75 | └─ Step 3 complete ✓
+2026-07-20 23:30:19 | INFO     | src.pipeline:run_pipeline:87 | ┌─ STEP 4: Risk Scoring ───────────────────────────────────
+2026-07-20 23:30:19 | INFO     | src.utils:wrapper:86 | ▶  Starting: run_risk_scoring
+2026-07-20 23:30:20 | INFO     | src.utils:save_csv:140 | 💾 Saved 3,802 rows → risk_scores.csv
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:run_risk_scoring:320 | ✅ Risk scoring complete: 3,802 SKUs
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:run_risk_scoring:323 |    Overstock Risk: 1787
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:run_risk_scoring:323 |    Mild Overstock Risk: 1027
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:run_risk_scoring:323 |    Volatile Demand: 649
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:run_risk_scoring:323 |    Critical Stockout Risk: 167
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:run_risk_scoring:323 |    Moderate Stockout Risk: 102
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:run_risk_scoring:323 |    High Stockout Risk: 49
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:run_risk_scoring:323 |    Healthy: 21
+2026-07-20 23:30:20 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_risk_scoring in 1.21s
+2026-07-20 23:30:20 | INFO     | src.pipeline:run_pipeline:101 | └─ Step 4 complete ✓
+2026-07-20 23:30:20 | INFO     | src.pipeline:run_pipeline:104 | ┌─ STEP 5: Business Impact Calculation ────────────────────
+2026-07-20 23:30:20 | INFO     | src.utils:wrapper:86 | ▶  Starting: calculate_business_impact
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:372 | 💰 Business Impact Summary:
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    revenue_at_risk: 98,851.49
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    forecast_revenue_28d: 1,768,942.67
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    inventory_value: 1,719,613.12
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    capital_locked: 957,622.87
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    working_capital_saved: 670,336.01
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    potential_sales_increase: 84,023.77
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    overstock_cost_monthly: 15,960.38
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    stockout_cost: 148,277.24
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    expected_profit_improvement: 606,082.54
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    critical_stockout_count: 167
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    high_stockout_count: 49
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    overstock_count: 2,814
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    healthy_count: 21
+2026-07-20 23:30:20 | INFO     | src.risk_scoring:calculate_business_impact:374 |    total_skus: 3,802
+2026-07-20 23:30:20 | INFO     | src.utils:wrapper:89 | ✔  Completed: calculate_business_impact in 0.00s
+2026-07-20 23:30:20 | INFO     | src.pipeline:run_pipeline:111 | └─ Step 5 complete ✓
+2026-07-20 23:30:20 | INFO     | src.pipeline:run_pipeline:121 | 
+╔══════════════════════════════════════════════════════════╗
+║  ✅ PIPELINE COMPLETE in 538.5s                        ║
+╠══════════════════════════════════════════════════════════╣
+║  SKUs processed   :    3,802                          ║
+║  Best model       : RandomForest                   ║
+║  Revenue at risk  : £   98,851.49                 ║
+║  Capital locked   : £  957,622.87                 ║
+╚══════════════════════════════════════════════════════════╝
+
+Next steps:
+  📊 Dashboard  : streamlit run app/streamlit_app.py
+  🌐 API Server : uvicorn service.api:app --reload --port 8000
+
+2026-07-20 23:30:20 | INFO     | src.utils:wrapper:89 | ✔  Completed: run_pipeline in 538.46s

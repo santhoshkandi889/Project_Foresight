@@ -372,69 +372,6 @@ PAGES = [
     ("📄", "Project Summary"),
 ]
 
-with st.sidebar:
-    st.markdown("""
-    <div style="padding:20px 10px 10px; text-align:center;">
-      <div style="font-size:2.5rem;">🔮</div>
-      <div style="font-size:1.2rem; font-weight:800; color:#f1f5f9; letter-spacing:0.05em;">FORESIGHT</div>
-      <div style="font-size:0.72rem; color:#6366f1; font-weight:600; letter-spacing:0.12em; margin-top:2px;">NORTHBAY LIVING</div>
-    </div>
-    <hr style="border-color:#334155; margin:10px 0 16px;">
-    """, unsafe_allow_html=True)
-
-    page_labels = [f"{icon}  {name}" for icon, name in PAGES]
-    selected_sidebar = st.radio("Navigation", page_labels, label_visibility="collapsed",
-                                 index=st.session_state.get("page_index", 0),
-                                 key="sidebar_nav")
-    sidebar_idx = page_labels.index(selected_sidebar)
-    st.session_state.page_index = sidebar_idx
-    page = selected_sidebar.split("  ", 1)[1]
-
-    st.markdown("<hr style='border-color:#334155; margin:16px 0 12px;'>", unsafe_allow_html=True)
-
-    # Filters (shown when data is ready)
-    if data_ready():
-        _sku = load_sku_master()
-        _risk = load_risk()
-        _sales = load_sales()
-        st.markdown('<div style="font-size:0.75rem; color:#6366f1; font-weight:700; letter-spacing:0.1em; margin-bottom:8px;">FILTERS</div>', unsafe_allow_html=True)
-
-        if not _sku.empty:
-            cats = ["All"] + sorted(_sku["category"].dropna().unique().tolist())
-            selected_cat = st.selectbox("📁 Category", cats, key="cat_filter")
-        else:
-            selected_cat = "All"
-
-        if not _risk.empty:
-            risk_levels = ["All"] + sorted(_risk["risk_level"].dropna().unique().tolist())
-            selected_risk = st.selectbox("⚠️ Risk Level", risk_levels, key="risk_filter")
-        else:
-            selected_risk = "All"
-
-        if not _sku.empty:
-            sku_list = _sku["stock_code"].unique().tolist()
-            selected_sku = st.selectbox("🔑 SKU", ["All"] + sorted(sku_list[:200]), key="sku_filter")
-        else:
-            selected_sku = "All"
-
-        if not _sales.empty and "date" in _sales.columns:
-            min_d = _sales["date"].min()
-            max_d = _sales["date"].max()
-            if pd.notna(min_d) and pd.notna(max_d):
-                date_range = st.date_input("📅 Date Range", value=(min_d.date(), max_d.date()), key="date_filter")
-            else:
-                date_range = None
-        else:
-            date_range = None
-
-    st.markdown(f"""
-    <div style="margin-top:20px; font-size:0.68rem; color:#475569; text-align:center; line-height:1.6;">
-      v1.0.0 &nbsp;|&nbsp; {datetime.now().strftime('%Y-%m-%d')}<br>
-      © NorthBay Living
-    </div>
-    """, unsafe_allow_html=True)
-
-
 # ─────────────────────────────────────────────
 # Top Navigation Bar (Elegant Glassmorphism)
 # ─────────────────────────────────────────────
@@ -444,6 +381,10 @@ st.markdown("""
 .block-container {
     padding-top: 1rem;
 }
+/* Hide the sidebar toggle button completely */
+[data-testid="collapsedControl"] {
+    display: none;
+}
 /* Style the pills to look like elegant tabs */
 div[data-testid="stPills"] {
     display: flex;
@@ -452,7 +393,7 @@ div[data-testid="stPills"] {
     gap: 8px;
     padding: 10px 0;
     border-bottom: 1px solid rgba(51, 65, 85, 0.5);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -471,10 +412,40 @@ top_selected = st.pills(
 if not top_selected:
     top_selected = page_names[st.session_state.get("page_index", 0)]
 
-# Sync: if user changes from top bar, update page
-if top_selected != page:
-    page = top_selected
-    st.session_state.page_index = page_names.index(top_selected)
+page = top_selected
+st.session_state.page_index = page_names.index(top_selected)
+
+# ─────────────────────────────────────────────
+# Global Filters (Horizontal Layout)
+# ─────────────────────────────────────────────
+selected_cat = "All"
+selected_risk = "All"
+selected_sku = "All"
+date_range = None
+
+if data_ready():
+    with st.expander("⚙️ Global Dashboard Filters", expanded=False):
+        _sku = load_sku_master()
+        _risk = load_risk()
+        _sales = load_sales()
+        
+        c1, c2, c3, c4 = st.columns(4)
+        if not _sku.empty:
+            cats = ["All"] + sorted(_sku["category"].dropna().unique().tolist())
+            selected_cat = c1.selectbox("📁 Category", cats, key="cat_filter")
+            
+            sku_list = _sku["stock_code"].unique().tolist()
+            selected_sku = c3.selectbox("🔑 SKU", ["All"] + sorted(sku_list[:200]), key="sku_filter")
+            
+        if not _risk.empty:
+            risk_levels = ["All"] + sorted(_risk["risk_level"].dropna().unique().tolist())
+            selected_risk = c2.selectbox("⚠️ Risk Level", risk_levels, key="risk_filter")
+            
+        if not _sales.empty and "date" in _sales.columns:
+            min_d = _sales["date"].min()
+            max_d = _sales["date"].max()
+            if pd.notna(min_d) and pd.notna(max_d):
+                date_range = c4.date_input("📅 Date Range", value=(min_d.date(), max_d.date()), key="date_filter")
 
 st.markdown('<hr style="border-color:#334155; margin:4px 0 16px;">', unsafe_allow_html=True)
 

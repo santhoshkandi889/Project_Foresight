@@ -510,7 +510,8 @@ if page == "Home":
         st.stop()
 
     # Data loaded lazily per-file
-    sales = load_sales()
+    sales = load_sales()        # daily agg: date, total_quantity, total_revenue
+    sku_sales = load_sku_sales()  # per-SKU agg: stock_code, total_revenue, ...
     risk  = load_risk()
     impact = load_impact()
     sku_master = load_sku_master()
@@ -522,7 +523,7 @@ if page == "Home":
         n_skus = sku_master["stock_code"].nunique() if not sku_master.empty else 0
         kpi_card("Total SKUs", f"{n_skus:,}", "Active Products", "neutral")
     with c2:
-        rev = sales["revenue"].sum() if "revenue" in sales.columns else 0
+        rev = sales["total_revenue"].sum() if "total_revenue" in sales.columns else 0
         kpi_card("Total Revenue", f"£{rev/1e6:.2f}M", "Historical", "positive", "")
     with c3:
         rar = impact.get("revenue_at_risk", 0)

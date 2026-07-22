@@ -272,51 +272,73 @@ if "splash_shown" not in st.session_state:
 # ─────────────────────────────────────────────
 # Data Loading (lazy, per-file caching)
 # ─────────────────────────────────────────────
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=600, show_spinner=False)
 def _load_csv(fname, usecols=None, nrows=None):
     """Load a CSV file from data/processed with memory-efficient dtypes."""
     fpath = DATA_PROCESSED / fname
     if not fpath.exists():
         return pd.DataFrame()
     header = pd.read_csv(fpath, nrows=0)
-    parse_cols = ["date"] if "date" in header.columns else []
+    parse_cols = [col for col in ["date"] if col in header.columns]
     df = pd.read_csv(fpath, parse_dates=parse_cols, low_memory=True,
                      usecols=usecols, nrows=nrows)
-    # Downcast numerics to save ~40% RAM
     for col in df.select_dtypes(include=["float64"]).columns:
         df[col] = pd.to_numeric(df[col], downcast="float")
     for col in df.select_dtypes(include=["int64"]).columns:
         df[col] = pd.to_numeric(df[col], downcast="integer")
     return df
 
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=600, show_spinner=False)
 def _load_json(fname):
-    """Load a JSON file from data/processed."""
     fpath = DATA_PROCESSED / fname
     if not fpath.exists():
         return {}
     with open(fpath) as f:
         return json.load(f)
 
-# Lightweight loaders — only load what each page needs
-def load_sales():      return _load_csv("sales_daily.csv")
-def load_sku_master(): return _load_csv("sku_master.csv")
-def load_calendar():   return _load_csv("calendar.csv")
-def load_inventory():  return _load_csv("inventory_snapshots.csv", nrows=50000)  # cap to 50k rows
-def load_forecast():   return _load_csv("forecast_output.csv")
-def load_risk():       return _load_csv("risk_scores.csv")
-def load_comparison(): return _load_csv("model_comparison.csv")
-def load_impact():     return _load_json("business_impact.json")
+def load_sku_master():  return _load_csv("sku_master.csv")        # 573KB — safe
+def load_risk():        return _load_csv("risk_scores.csv")       # 830KB — safe
+def load_comparison():  return _load_csv("model_comparison.csv")  # tiny
+def load_impact():      return _load_json("business_impact.json") # tiny
+def load_forecast():    return _load_csv("forecast_output.csv")   # 2.6MB — safe
+def load_calendar():    return _load_csv("calendar.csv")          # 28KB — safe
 
-@st.cache_data(ttl=300, show_spinner=False)
+@st.cache_data(ttl=600, show_spinner=False)
+def load_sales():
+    """Load last 365 days only + 6 key columns. Reduces 1.4M rows → ~100k rows."""
+    fpath = DATA_PROCESSED / "sales_daily.csv"
+    if not fpath.exists():
+        return pd.DataFrame()
+    df = pd.read_csv(fpath,
+                     usecols=["stock_code", "date", "quantity", "revenue",
+                               "avg_unit_price", "is_promotion"],
+                     parse_dates=["date"], low_memory=True)
+    if not df.empty:
+        df = df[df["date"] >= df["date"].max() - pd.Timedelta(days=365)]
+    for col in df.select_dtypes(include=["float64"]).columns:
+        df[col] = pd.to_numeric(df[col], downcast="float")
+    return df.reset_index(drop=True)
+
+@st.cache_data(ttl=600, show_spinner=False)
+def load_inventory():
+    """Load last 90 days + 8 key columns only. Reduces 1.4M rows → ~30k rows."""
+    fpath = DATA_PROCESSED / "inventory_snapshots.csv"
+    if not fpath.exists():
+        return pd.DataFrame()
+    df = pd.read_csv(fpath,
+                     usecols=["stock_code", "date", "closing_inventory",
+                               "coverage_days", "reorder_triggered",
+                               "inventory_value", "units_sold", "reorder_point"],
+                     parse_dates=["date"], low_memory=True)
+    if not df.empty:
+        df = df[df["date"] >= df["date"].max() - pd.Timedelta(days=90)]
+    for col in df.select_dtypes(include=["float64"]).columns:
+        df[col] = pd.to_numeric(df[col], downcast="float")
+    return df.reset_index(drop=True)
+
 def load_features_sample():
-    """Load only numeric columns from features_engineered.csv as a small sample.
-    The full file is 736MB — loading it on the free tier would crash the server.
-    We use sales_daily.csv columns instead, which gives equivalent correlation info.
-    """
-    # Use sales_daily which has the key numeric columns (quantity, revenue, etc.)
-    # This is safe (49MB) and provides meaningful correlation data.
-    return _load_csv("sales_daily.csv")
+    """Never load the 736MB features file. Use lean sales data for correlation charts."""
+    return load_sales()
 
 
 def data_ready() -> bool:

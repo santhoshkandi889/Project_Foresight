@@ -817,26 +817,18 @@ elif page == "Dataset Overview":
     tab1, tab2, tab3, tab4 = st.tabs(["📊 Sales Daily", "🏷 SKU Master", "📅 Calendar", "📦 Inventory"])
 
     with tab1:
-        df = load_sales()
+        df = load_sales()          # daily aggregates
+        df_sku = load_sku_sales()  # per-SKU detail
         if not df.empty:
             c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Rows", f"{len(df):,}")
-            c2.metric("SKUs", f"{df['stock_code'].nunique():,}")
+            c1.metric("Daily Rows", f"{len(df):,}")
+            c2.metric("SKUs", f"{len(df_sku):,}")
             c3.metric("Date Range", f"{df['date'].min().date() if pd.api.types.is_datetime64_any_dtype(df['date']) else 'N/A'}")
             c4.metric("Null %", f"{df.isnull().mean().mean()*100:.1f}%")
-            st.markdown("**Missing Value Report**")
-            null_df = df.isnull().sum().reset_index()
-            null_df.columns = ["Column", "Null Count"]
-            null_df["Null %"] = (null_df["Null Count"] / len(df) * 100).round(2)
-            null_df = null_df[null_df["Null Count"] > 0]
-            if null_df.empty:
-                st.success("✅ No missing values in sales_daily.csv")
-            else:
-                st.dataframe(null_df, width="stretch")
-            st.markdown("**Sample Data (first 50 rows)**")
+            st.markdown("**Daily Sales Aggregates (first 50 rows)**")
             st.dataframe(df.head(50), width="stretch")
             csv = df.to_csv(index=False).encode()
-            st.download_button("⬇ Download sales_daily.csv", csv, "sales_daily.csv", "text/csv")
+            st.download_button("⬇ Download sales_daily_agg.csv", csv, "sales_daily_agg.csv", "text/csv")
 
     with tab2:
         df = load_sku_master()
@@ -881,10 +873,10 @@ elif page == "Dataset Overview":
         df = load_inventory()
         if not df.empty:
             c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Snapshot Rows", f"{len(df):,}")
+            c1.metric("SKUs Tracked", f"{len(df):,}")
             c2.metric("Avg Coverage (days)", f"{df['coverage_days'].mean():.1f}")
-            c3.metric("Total Inv Value", f"£{df.groupby('stock_code').last()['inventory_value'].sum():,.0f}")
-            c4.metric("Reorder Events", f"{df['reorder_triggered'].sum():,}")
+            c3.metric("Total Inv Value", f"£{df['inventory_value'].sum():,.0f}")
+            c4.metric("Below Reorder Point", f"{(df['closing_inventory'] <= df['reorder_point']).sum():,}")
             fig = go.Figure(go.Histogram(x=df["coverage_days"].clip(upper=365), nbinsx=40,
                 marker_color="#6366f1", opacity=0.8))
             fig.add_vline(x=7, line_dash="dash", line_color="#ef4444", annotation_text="Critical")
@@ -906,98 +898,95 @@ elif page == "Exploratory Data Analysis":
         st.warning("Run `python main.py` first.")
         st.stop()
 
-    # Data loaded lazily per-file
-    sales = load_sales()
+    # Use pre-aggregated data (tiny files, no raw CSVs needed)
+    sales = load_sales()          # daily agg: date, total_quantity, total_revenue, sku_count, promo_days
+    sku_sales = load_sku_sales()  # per-SKU: stock_code, total_quantity, total_revenue, avg_price...
     sku_master = load_sku_master()
+    cat_agg = load_category_agg()
 
     if sales.empty:
-        st.error("sales_daily.csv not found.")
+        st.info("Aggregated sales data not found. Run the pipeline first.")
         st.stop()
-
-    # Apply sidebar filters
-    sales_f = sales.copy()
-    if selected_cat != "All" and "stock_code" in sales_f.columns and not sku_master.empty:
-        valid_skus = sku_master[sku_master["category"] == selected_cat]["stock_code"].tolist()
-        sales_f = sales_f[sales_f["stock_code"].isin(valid_skus)]
 
     eda_tabs = st.tabs(["📈 Revenue & Sales", "🏆 Top Products", "🌊 Seasonality", "🔗 Correlation", "🎯 Promotions"])
 
     with eda_tabs[0]:
         col1, col2 = st.columns(2)
         with col1:
-            d = sales_f.groupby("date")["revenue"].sum().reset_index().sort_values("date")
-            d["ma7"] = d["revenue"].rolling(7, min_periods=1).mean()
-            d["ma28"] = d["revenue"].rolling(28, min_periods=1).mean()
+            d = sales.sort_values("date").copy()
+            d["ma7"]  = d["total_revenue"].rolling(7, min_periods=1).mean()
+            d["ma28"] = d["total_revenue"].rolling(28, min_periods=1).mean()
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=d["date"], y=d["revenue"], name="Daily", fill="tozeroy",
+            fig.add_trace(go.Scatter(x=d["date"], y=d["total_revenue"], name="Daily", fill="tozeroy",
                 fillcolor="rgba(99,102,241,0.08)", line=dict(color="#6366f1", width=1.2), opacity=0.6))
             fig.add_trace(go.Scatter(x=d["date"], y=d["ma7"], name="7d MA", line=dict(color="#06b6d4", width=2)))
             fig.add_trace(go.Scatter(x=d["date"], y=d["ma28"], name="28d MA", line=dict(color="#f59e0b", width=2, dash="dash")))
             apply_theme(fig, "Revenue Trend", 380)
             st.plotly_chart(fig, width="stretch")
         with col2:
-            d2 = sales_f.groupby("date")["quantity"].sum().reset_index().sort_values("date")
-            d2["ma7"] = d2["quantity"].rolling(7, min_periods=1).mean()
+            d2 = sales.sort_values("date").copy()
+            d2["ma7"] = d2["total_quantity"].rolling(7, min_periods=1).mean()
             fig2 = go.Figure()
-            fig2.add_trace(go.Bar(x=d2["date"], y=d2["quantity"], name="Units", marker_color="#6366f1", opacity=0.65))
+            fig2.add_trace(go.Bar(x=d2["date"], y=d2["total_quantity"], name="Units", marker_color="#6366f1", opacity=0.65))
             fig2.add_trace(go.Scatter(x=d2["date"], y=d2["ma7"], name="7d MA", line=dict(color="#f59e0b", width=2)))
             apply_theme(fig2, "Units Sold Trend", 380)
             st.plotly_chart(fig2, width="stretch")
 
-        # Monthly breakdown
-        if "date" in sales_f.columns:
-            sales_f["month"] = pd.to_datetime(sales_f["date"]).dt.month
-            monthly = sales_f.groupby("month").agg(revenue=("revenue","sum"), quantity=("quantity","sum")).reset_index()
-            month_names = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-            monthly["month_name"] = monthly["month"].apply(lambda x: month_names[x-1])
-            fig3 = px.bar(monthly, x="month_name", y="revenue", color="revenue",
-                color_continuous_scale=["#1e293b","#6366f1","#06b6d4"],
-                title="Monthly Revenue Distribution")
-            apply_theme(fig3, "Monthly Revenue", 360)
-            st.plotly_chart(fig3, width="stretch")
+        # Monthly breakdown from daily agg
+        sf = sales.copy()
+        sf["date"] = pd.to_datetime(sf["date"])
+        sf["month"] = sf["date"].dt.month
+        monthly = sf.groupby("month").agg(revenue=("total_revenue","sum"), quantity=("total_quantity","sum")).reset_index()
+        month_names = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+        monthly["month_name"] = monthly["month"].apply(lambda x: month_names[x-1])
+        fig3 = px.bar(monthly, x="month_name", y="revenue", color="revenue",
+            color_continuous_scale=["#1e293b","#6366f1","#06b6d4"], title="Monthly Revenue Distribution")
+        apply_theme(fig3, "Monthly Revenue", 360)
+        st.plotly_chart(fig3, width="stretch")
 
     with eda_tabs[1]:
-        rev_sku = sales_f.groupby("stock_code")["revenue"].sum().reset_index()
-        rev_sku = rev_sku.merge(sku_master[["stock_code","description","category","abc_class"]].drop_duplicates(), on="stock_code", how="left")
-        top20 = rev_sku.nlargest(20, "revenue").sort_values("revenue")
-        fig = go.Figure(go.Bar(
-            x=top20["revenue"], y=top20["description"].str[:40].fillna(top20["stock_code"]),
-            orientation="h",
-            marker=dict(color=top20["revenue"], colorscale=[[0,"#6366f1"],[1,"#06b6d4"]]),
-            text=top20["revenue"].apply(lambda v: f"£{v:,.0f}"), textposition="outside",
-            textfont=dict(color="#f1f5f9"),
-        ))
-        apply_theme(fig, "Top 20 Products by Revenue", 600)
-        st.plotly_chart(fig, width="stretch")
+        if not sku_sales.empty:
+            sku_with_desc = sku_sales.merge(
+                sku_master[["stock_code","description","category","abc_class"]].drop_duplicates(),
+                on="stock_code", how="left")
+            top20 = sku_with_desc.nlargest(20, "total_revenue").sort_values("total_revenue")
+            fig = go.Figure(go.Bar(
+                x=top20["total_revenue"],
+                y=top20["description"].str[:40].fillna(top20["stock_code"]),
+                orientation="h",
+                marker=dict(color=top20["total_revenue"], colorscale=[[0,"#6366f1"],[1,"#06b6d4"]]),
+                text=top20["total_revenue"].apply(lambda v: f"£{v:,.0f}"),
+                textposition="outside", textfont=dict(color="#f1f5f9"),
+            ))
+            apply_theme(fig, "Top 20 Products by Revenue", 600)
+            st.plotly_chart(fig, width="stretch")
 
-        # Category treemap
-        if not sku_master.empty:
-            cat_rev = rev_sku.groupby("category")["revenue"].sum().reset_index()
-            fig2 = px.treemap(cat_rev, path=["category"], values="revenue",
-                color="revenue", color_continuous_scale=["#1e293b","#6366f1","#06b6d4"])
+        # Category treemap from pre-aggregated category file
+        if not cat_agg.empty:
+            fig2 = px.treemap(cat_agg, path=["category"], values="total_revenue",
+                color="total_revenue", color_continuous_scale=["#1e293b","#6366f1","#06b6d4"])
             apply_theme(fig2, "Revenue by Category (Treemap)", 450)
             st.plotly_chart(fig2, width="stretch")
 
     with eda_tabs[2]:
-        sf = sales_f.copy()
-        sf["date"] = pd.to_datetime(sf["date"])
-        sf["month"] = sf["date"].dt.month_name().str[:3]
-        sf["dow"]   = sf["date"].dt.day_name().str[:3]
-        pivot = sf.groupby(["month","dow"])["quantity"].mean().unstack(fill_value=0)
+        sf2 = sales.copy()
+        sf2["date"] = pd.to_datetime(sf2["date"])
+        sf2["month"] = sf2["date"].dt.month_name().str[:3]
+        sf2["dow"]   = sf2["date"].dt.day_name().str[:3]
         month_order = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
         dow_order   = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+        pivot = sf2.pivot_table(index="month", columns="dow", values="total_quantity", aggfunc="mean").fillna(0)
         pivot = pivot.reindex([m for m in month_order if m in pivot.index])
         pivot = pivot.reindex(columns=[d for d in dow_order if d in pivot.columns])
         fig = go.Figure(go.Heatmap(
             z=pivot.values, x=pivot.columns.tolist(), y=pivot.index.tolist(),
             colorscale=[[0,"#0f172a"],[0.5,"#6366f1"],[1,"#06b6d4"]],
-            text=pivot.values.round(1), texttemplate="%{text}", showscale=True,
+            text=pivot.values.round(0), texttemplate="%{text}", showscale=True,
         ))
-        apply_theme(fig, "Seasonality Heatmap – Avg Units Sold (Month × Day)", 420)
+        apply_theme(fig, "Seasonality Heatmap – Total Units (Month)", 420)
         st.plotly_chart(fig, width="stretch")
 
-        # Weekly pattern
-        dow_avg = sf.groupby("dow")["quantity"].mean().reindex(dow_order).reset_index()
+        dow_avg = sf2.groupby("dow")["total_quantity"].mean().reindex(dow_order).reset_index()
         dow_avg.columns = ["day", "avg_qty"]
         fig2 = px.bar(dow_avg, x="day", y="avg_qty", color="avg_qty",
             color_continuous_scale=["#6366f1","#06b6d4"], title="Avg Daily Sales by Day of Week")
@@ -1005,45 +994,43 @@ elif page == "Exploratory Data Analysis":
         st.plotly_chart(fig2, width="stretch")
 
     with eda_tabs[3]:
-        # Use sales_daily for correlations — features_engineered.csv is 736MB
-        # and would immediately crash the free-tier server (512MB RAM limit).
-        features = load_features_sample()
+        features = load_features_sample()  # returns sku_sales_agg
         if not features.empty:
             num_cols = features.select_dtypes(include=[np.number]).columns.tolist()
-            if "quantity" in num_cols:
-                corr = features[num_cols].corr()["quantity"].abs().nlargest(16).drop("quantity", errors="ignore")
+            target = "total_revenue" if "total_revenue" in num_cols else (num_cols[0] if num_cols else None)
+            if target:
+                corr = features[num_cols].corr()[target].abs().nlargest(12).drop(target, errors="ignore")
                 top_feats = corr.index.tolist()
-                corr_matrix = features[["quantity"] + top_feats].corr()
+                corr_matrix = features[[target] + top_feats].corr()
                 fig = go.Figure(go.Heatmap(
                     z=corr_matrix.values, x=corr_matrix.columns, y=corr_matrix.index,
                     colorscale="RdBu", zmid=0,
                     text=corr_matrix.values.round(2), texttemplate="%{text}",
                     textfont=dict(size=9),
                 ))
-                apply_theme(fig, "Feature Correlation Heatmap (vs Quantity)", 550)
+                apply_theme(fig, "SKU-Level Feature Correlation Heatmap", 500)
                 st.plotly_chart(fig, width="stretch")
         else:
-            st.info("Feature-engineered data not yet available. Run the pipeline first.")
+            st.info("Aggregated SKU data not available.")
 
     with eda_tabs[4]:
-        if "is_promotion" in sales_f.columns:
-            promo = sales_f.groupby("is_promotion")["quantity"].agg(["mean","median","sum"]).reset_index()
-            promo["label"] = promo["is_promotion"].map({0:"Regular",1:"Promotion"})
+        # Promo days from daily agg
+        if "promo_days" in sales.columns:
+            promo_d = sales.copy()
+            promo_d["label"] = promo_d["promo_days"].apply(lambda x: "Promotion" if x > 0 else "Regular")
+            promo_summary = promo_d.groupby("label").agg(
+                avg_qty=("total_quantity","mean"),
+                avg_rev=("total_revenue","mean")
+            ).reset_index()
             fig = go.Figure()
-            for col, label, color in [("mean","Avg Units","#6366f1"),("median","Median Units","#06b6d4")]:
-                fig.add_trace(go.Bar(x=promo["label"], y=promo[col], name=label,
-                    marker_color=color, text=promo[col].round(1), textposition="outside",
+            for col, label, color in [("avg_qty","Avg Units","#6366f1"),("avg_rev","Avg Revenue","#06b6d4")]:
+                fig.add_trace(go.Bar(x=promo_summary["label"], y=promo_summary[col], name=label,
+                    marker_color=color, text=promo_summary[col].round(1), textposition="outside",
                     textfont=dict(color="#f1f5f9")))
             apply_theme(fig, "Promotion Impact on Sales Volume", 380)
             st.plotly_chart(fig, width="stretch")
-
-            promo_pct = (sales_f["is_promotion"].sum() / len(sales_f) * 100) if len(sales_f) > 0 else 0
-            st.markdown(f"""
-            <div class="info-box">
-              📊 <strong>{promo_pct:.1f}%</strong> of daily SKU records are flagged as promotion days
-              (price &lt; 85% of 30-day rolling average).
-            </div>
-            """, unsafe_allow_html=True)
+            promo_pct = (sales["promo_days"].gt(0).sum() / len(sales) * 100) if len(sales) > 0 else 0
+            st.markdown(f'<div class="info-box">📊 <strong>{promo_pct:.1f}%</strong> of days had promotion activity.</div>', unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1072,14 +1059,17 @@ elif page == "Demand Forecast":
         desc = sku_master[sku_master["stock_code"] == sel_sku]["description"].values
         sku_name = desc[0] if len(desc) > 0 else ""
 
-    # History + forecast chart
-    hist = sales[sales["stock_code"] == sel_sku].sort_values("date").tail(120) if not sales.empty else pd.DataFrame()
+    # History from sku_sales_agg (has stock_code + total_quantity)
+    sku_sales = load_sku_sales()
+    hist_row = sku_sales[sku_sales["stock_code"] == sel_sku] if not sku_sales.empty else pd.DataFrame()
     fcast_sku = forecast[forecast["stock_code"] == sel_sku].sort_values("date")
 
     fig = go.Figure()
-    if not hist.empty:
-        fig.add_trace(go.Scatter(x=hist["date"], y=hist["quantity"], name="Historical",
-            line=dict(color="#06b6d4", width=2), mode="lines"))
+    if not hist_row.empty:
+        # Show total historical qty as a single reference point bar
+        hist_qty = hist_row["total_quantity"].values[0]
+        fig.add_trace(go.Bar(x=["Historical Total"], y=[hist_qty], name="Historical Total",
+            marker_color="#06b6d4", width=0.4))
     if not fcast_sku.empty:
         fig.add_trace(go.Scatter(x=fcast_sku["date"], y=fcast_sku["forecast_quantity"], name="Forecast",
             line=dict(color="#f59e0b", width=2, dash="dash"), mode="lines+markers",

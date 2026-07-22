@@ -540,10 +540,10 @@ if page == "Home":
     col_left, col_right = st.columns([2, 1])
     with col_left:
         if not sales.empty and "date" in sales.columns:
-            d = sales.groupby("date")["revenue"].sum().reset_index().sort_values("date")
-            d["ma28"] = d["revenue"].rolling(28, min_periods=1).mean()
+            d = sales.sort_values("date").copy()
+            d["ma28"] = d["total_revenue"].rolling(28, min_periods=1).mean()
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=d["date"], y=d["revenue"], name="Daily Revenue",
+            fig.add_trace(go.Scatter(x=d["date"], y=d["total_revenue"], name="Daily Revenue",
                 fill="tozeroy", fillcolor="rgba(99,102,241,0.1)",
                 line=dict(color="#6366f1", width=1.5), opacity=0.7))
             fig.add_trace(go.Scatter(x=d["date"], y=d["ma28"], name="28-Day MA",
@@ -1083,7 +1083,7 @@ elif page == "Demand Forecast":
             fill="toself", fillcolor="rgba(245,158,11,0.12)",
             line=dict(color="rgba(0,0,0,0)"), name="±25% Band",
         ))
-        if not hist.empty:
+        if not hist_row.empty:
             fig.add_vline(x=fcast_sku["date"].min(), line_dash="dot",
                 line_color="#94a3b8", opacity=0.6, annotation_text="Forecast →")
 

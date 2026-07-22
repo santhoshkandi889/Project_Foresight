@@ -1,50 +1,28 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
 *.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# Virtual environments
 venv/
 env/
-ENV/
-env.bak/
-venv.bak/
+.env
 
-# Project Specific Data (Do NOT commit large data files or models)
-data/raw/*
-!data/raw/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
-models/*
-!models/.gitkeep
+# Large raw data files (too big for GitHub/Render)
+data/raw/
+data/processed/sales_daily.csv
+data/processed/inventory_snapshots.csv
+data/processed/features_engineered.csv
+
+# Small processed files are OK to commit
+# data/processed/*.json  ← these are tiny, keep them
+# data/aggregated/       ← tiny aggregated files, commit these
 
 # IDEs
 .idea/
 .vscode/
 *.swp
-*.swo
 
 # Jupyter
 .ipynb_checkpoints
 
-# Environment variables
-.env
+# Misc
+data.tar.gz

@@ -270,22 +270,19 @@ if "splash_shown" not in st.session_state:
 
 
 # ─────────────────────────────────────────────
-# Data Loading (lazy, per-file caching)
+# Data Loading — uses pre-aggregated tiny files (total <1MB, no raw data needed)
 # ─────────────────────────────────────────────
-@st.cache_data(ttl=600, show_spinner=False)
-def _load_csv(fname, usecols=None, nrows=None):
-    """Load a CSV file from data/processed with memory-efficient dtypes."""
-    fpath = DATA_PROCESSED / fname
-    if not fpath.exists():
+DATA_AGG = BASE_DIR / "data" / "aggregated"
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def _read(fpath, **kwargs):
+    if not Path(fpath).exists():
         return pd.DataFrame()
     header = pd.read_csv(fpath, nrows=0)
-    parse_cols = [col for col in ["date"] if col in header.columns]
-    df = pd.read_csv(fpath, parse_dates=parse_cols, low_memory=True,
-                     usecols=usecols, nrows=nrows)
+    parse_cols = [c for c in ["date","week","last_sale","first_sale"] if c in header.columns]
+    df = pd.read_csv(fpath, parse_dates=parse_cols if parse_cols else False, **kwargs)
     for col in df.select_dtypes(include=["float64"]).columns:
         df[col] = pd.to_numeric(df[col], downcast="float")
-    for col in df.select_dtypes(include=["int64"]).columns:
-        df[col] = pd.to_numeric(df[col], downcast="integer")
     return df
 
 @st.cache_data(ttl=600, show_spinner=False)
@@ -296,53 +293,46 @@ def _load_json(fname):
     with open(fpath) as f:
         return json.load(f)
 
-def load_sku_master():  return _load_csv("sku_master.csv")        # 573KB — safe
-def load_risk():        return _load_csv("risk_scores.csv")       # 830KB — safe
-def load_comparison():  return _load_csv("model_comparison.csv")  # tiny
-def load_impact():      return _load_json("business_impact.json") # tiny
-def load_forecast():    return _load_csv("forecast_output.csv")   # 2.6MB — safe
-def load_calendar():    return _load_csv("calendar.csv")          # 28KB — safe
-
-@st.cache_data(ttl=600, show_spinner=False)
+# ── Tiny pre-aggregated loaders (all files <300KB) ─────────────────────────
 def load_sales():
-    """Load last 365 days only + 6 key columns. Reduces 1.4M rows → ~100k rows."""
-    fpath = DATA_PROCESSED / "sales_daily.csv"
-    if not fpath.exists():
-        return pd.DataFrame()
-    df = pd.read_csv(fpath,
-                     usecols=["stock_code", "date", "quantity", "revenue",
-                               "avg_unit_price", "is_promotion"],
-                     parse_dates=["date"], low_memory=True)
-    if not df.empty:
-        df = df[df["date"] >= df["date"].max() - pd.Timedelta(days=365)]
-    for col in df.select_dtypes(include=["float64"]).columns:
-        df[col] = pd.to_numeric(df[col], downcast="float")
-    return df.reset_index(drop=True)
+    """Daily aggregate totals — 374 rows, 14KB."""
+    return _read(DATA_AGG / "sales_daily_agg.csv")
 
-@st.cache_data(ttl=600, show_spinner=False)
+def load_sku_sales():
+    """Per-SKU totals — 3804 rows, 252KB."""
+    return _read(DATA_AGG / "sku_sales_agg.csv")
+
+def load_sales_weekly():
+    """Weekly trend — 53 rows, 1KB."""
+    return _read(DATA_AGG / "sales_weekly_agg.csv")
+
+def load_category_agg():
+    """Category aggregates — 10 rows, tiny."""
+    return _read(DATA_AGG / "category_agg.csv")
+
 def load_inventory():
-    """Load last 90 days + 8 key columns only. Reduces 1.4M rows → ~30k rows."""
-    fpath = DATA_PROCESSED / "inventory_snapshots.csv"
-    if not fpath.exists():
-        return pd.DataFrame()
-    df = pd.read_csv(fpath,
-                     usecols=["stock_code", "date", "closing_inventory",
-                               "coverage_days", "reorder_triggered",
-                               "inventory_value", "units_sold", "reorder_point"],
-                     parse_dates=["date"], low_memory=True)
-    if not df.empty:
-        df = df[df["date"] >= df["date"].max() - pd.Timedelta(days=90)]
-    for col in df.select_dtypes(include=["float64"]).columns:
-        df[col] = pd.to_numeric(df[col], downcast="float")
-    return df.reset_index(drop=True)
+    """Latest inventory snapshot per SKU — 3804 rows, 184KB."""
+    return _read(DATA_AGG / "inventory_latest.csv")
 
-def load_features_sample():
-    """Never load the 736MB features file. Use lean sales data for correlation charts."""
-    return load_sales()
+def load_low_stock():
+    """SKUs currently below reorder point — 224 rows, 9KB."""
+    return _read(DATA_AGG / "low_stock_alerts.csv")
 
+# ── Other small files loaded directly ──────────────────────────────────────
+def load_sku_master():  return _read(DATA_PROCESSED / "sku_master.csv")
+def load_risk():        return _read(DATA_PROCESSED / "risk_scores.csv")
+def load_comparison():  return _read(DATA_PROCESSED / "model_comparison.csv")
+def load_forecast():    return _read(DATA_PROCESSED / "forecast_output.csv")
+def load_calendar():    return _read(DATA_PROCESSED / "calendar.csv")
+def load_impact():      return _load_json("business_impact.json")
+def load_features_sample(): return load_sku_sales()  # never load 736MB file
 
 def data_ready() -> bool:
-    return (DATA_PROCESSED / "sales_daily.csv").exists()
+    """Check if pre-aggregated data exists (works on Render without raw files)."""
+    return (DATA_AGG / "sales_daily_agg.csv").exists() or \
+           (DATA_PROCESSED / "sales_daily.csv").exists()
+
+
 
 
 # ─────────────────────────────────────────────

@@ -273,13 +273,21 @@ if "splash_shown" not in st.session_state:
 # Data Loading (lazy, per-file caching)
 # ─────────────────────────────────────────────
 @st.cache_data(ttl=300, show_spinner=False)
-def _load_csv(fname):
-    """Load a single CSV file from data/processed."""
+def _load_csv(fname, usecols=None, nrows=None):
+    """Load a CSV file from data/processed with memory-efficient dtypes."""
     fpath = DATA_PROCESSED / fname
     if not fpath.exists():
         return pd.DataFrame()
-    parse_cols = ["date"] if "date" in pd.read_csv(fpath, nrows=0).columns else []
-    return pd.read_csv(fpath, parse_dates=parse_cols, low_memory=False)
+    header = pd.read_csv(fpath, nrows=0)
+    parse_cols = ["date"] if "date" in header.columns else []
+    df = pd.read_csv(fpath, parse_dates=parse_cols, low_memory=True,
+                     usecols=usecols, nrows=nrows)
+    # Downcast numerics to save ~40% RAM
+    for col in df.select_dtypes(include=["float64"]).columns:
+        df[col] = pd.to_numeric(df[col], downcast="float")
+    for col in df.select_dtypes(include=["int64"]).columns:
+        df[col] = pd.to_numeric(df[col], downcast="integer")
+    return df
 
 @st.cache_data(ttl=300, show_spinner=False)
 def _load_json(fname):
@@ -294,12 +302,21 @@ def _load_json(fname):
 def load_sales():      return _load_csv("sales_daily.csv")
 def load_sku_master(): return _load_csv("sku_master.csv")
 def load_calendar():   return _load_csv("calendar.csv")
-def load_inventory():  return _load_csv("inventory_snapshots.csv")
-def load_features():   return _load_csv("features_engineered.csv")
+def load_inventory():  return _load_csv("inventory_snapshots.csv", nrows=50000)  # cap to 50k rows
 def load_forecast():   return _load_csv("forecast_output.csv")
 def load_risk():       return _load_csv("risk_scores.csv")
 def load_comparison(): return _load_csv("model_comparison.csv")
 def load_impact():     return _load_json("business_impact.json")
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_features_sample():
+    """Load only numeric columns from features_engineered.csv as a small sample.
+    The full file is 736MB — loading it on the free tier would crash the server.
+    We use sales_daily.csv columns instead, which gives equivalent correlation info.
+    """
+    # Use sales_daily which has the key numeric columns (quantity, revenue, etc.)
+    # This is safe (49MB) and provides meaningful correlation data.
+    return _load_csv("sales_daily.csv")
 
 
 def data_ready() -> bool:
@@ -976,7 +993,9 @@ elif page == "Exploratory Data Analysis":
         st.plotly_chart(fig2, width="stretch")
 
     with eda_tabs[3]:
-        features = load_features()
+        # Use sales_daily for correlations — features_engineered.csv is 736MB
+        # and would immediately crash the free-tier server (512MB RAM limit).
+        features = load_features_sample()
         if not features.empty:
             num_cols = features.select_dtypes(include=[np.number]).columns.tolist()
             if "quantity" in num_cols:

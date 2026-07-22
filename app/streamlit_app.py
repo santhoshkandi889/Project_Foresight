@@ -272,7 +272,7 @@ if "splash_shown" not in st.session_state:
 # ─────────────────────────────────────────────
 # Data Loading — uses pre-aggregated tiny files (total <1MB, no raw data needed)
 # ─────────────────────────────────────────────
-DATA_AGG = BASE_DIR / "data" / "aggregated"
+DATA_AGG = ROOT / "data" / "aggregated"
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def _read(fpath, **kwargs):
